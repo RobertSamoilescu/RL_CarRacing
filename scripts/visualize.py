@@ -3,6 +3,9 @@
 import argparse
 import gym
 import time
+import cv2
+from env.env import CarRacingWrapper
+
 
 try:
     import gym_minigrid
@@ -14,8 +17,8 @@ import utils
 # Parse arguments
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--env", required=True,
-                    help="name of the environment to be run (REQUIRED)")
+# parser.add_argument("--env", required=True,
+#                     help="name of the environment to be run (REQUIRED)")
 parser.add_argument("--model", required=True,
                     help="name of the trained model (REQUIRED)")
 parser.add_argument("--seed", type=int, default=0,
@@ -33,8 +36,8 @@ args = parser.parse_args()
 utils.seed(args.seed)
 
 # Generate environment
-
-env = gym.make(args.env)
+ENV = "CarRacing-v0"
+env = CarRacingWrapper(gym.make(ENV))
 env.seed(args.seed)
 for _ in range(args.shift):
     env.reset()
@@ -42,7 +45,7 @@ for _ in range(args.shift):
 # Define agent
 
 model_dir = utils.get_model_dir(args.model)
-agent = utils.Agent(args.env, env.observation_space, model_dir, args.argmax)
+agent = utils.Agent(ENV, env.observation_space, model_dir, args.argmax)
 
 # Run the agent
 
@@ -55,9 +58,14 @@ while True:
     time.sleep(args.pause)
     renderer = env.render()
 
+    # show obs
+    cv2.imshow("OBS", obs)
+    cv2.waitKey(1)
+
     action = agent.get_action(obs)
     obs, reward, done, _ = env.step(action)
+
     agent.analyze_feedback(reward, done)
 
-    if renderer.window is None:
-        break
+    # if renderer.window is None:
+    #     break

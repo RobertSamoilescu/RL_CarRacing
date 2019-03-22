@@ -15,14 +15,15 @@ except ImportError:
 
 import utils
 from model import ACModel
+from env.env import CarRacingWrapper
 
 # Parse arguments
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument("--algo", required=True,
                     help="algorithm to use: a2c | ppo (REQUIRED)")
-parser.add_argument("--env", required=True,
-                    help="name of the environment to train on (REQUIRED)")
+# parser.add_argument("--env", required=True,
+#                     help="name of the environment to train on (REQUIRED)")
 parser.add_argument("--model", default=None,
                     help="name of the model (default: {ENV}_{ALGO}_{TIME})")
 parser.add_argument("--seed", type=int, default=1,
@@ -69,9 +70,10 @@ args = parser.parse_args()
 args.mem = args.recurrence > 1
 
 # Define run dir
+ENV = "CarRacing-v0"
 
 suffix = datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S")
-default_model_name = "{}_{}_seed{}_{}".format(args.env, args.algo, args.seed, suffix)
+default_model_name = "{}_{}_seed{}_{}".format(ENV, args.algo, args.seed, suffix)
 model_name = args.model or default_model_name
 model_dir = utils.get_model_dir(model_name)
 
@@ -96,13 +98,13 @@ utils.seed(args.seed)
 
 envs = []
 for i in range(args.procs):
-    env = gym.make(args.env)
+    env = CarRacingWrapper(gym.make(ENV))
     env.seed(args.seed + 10000*i)
     envs.append(env)
 
 # Define obss preprocessor
 
-obs_space, preprocess_obss = utils.get_obss_preprocessor(args.env, envs[0].observation_space, model_dir)
+obs_space, preprocess_obss = utils.get_obss_preprocessor(ENV, envs[0].observation_space, model_dir)
 
 # Load training status
 
@@ -193,7 +195,7 @@ while num_frames < args.frames:
     # Save vocabulary and model
 
     if args.save_interval > 0 and update % args.save_interval == 0:
-        preprocess_obss.vocab.save()
+        # preprocess_obss.vocab.save()
 
         if torch.cuda.is_available():
             acmodel.cpu()

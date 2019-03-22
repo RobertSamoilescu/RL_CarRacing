@@ -5,6 +5,7 @@ import gym
 import time
 import torch
 from torch_rl.utils.penv import ParallelEnv
+from env.env import CarRacingWrapper
 
 try:
     import gym_minigrid
@@ -16,8 +17,8 @@ import utils
 # Parse arguments
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--env", required=True,
-                    help="name of the environment to be run (REQUIRED)")
+# parser.add_argument("--env", required=True,
+#                     help="name of the environment to be run (REQUIRED)")
 parser.add_argument("--model", required=True,
                     help="name of the trained model (REQUIRED)")
 parser.add_argument("--episodes", type=int, default=100,
@@ -37,10 +38,10 @@ args = parser.parse_args()
 utils.seed(args.seed)
 
 # Generate environment
-
+ENV = "CarRacing-v0"
 envs = []
 for i in range(args.procs):
-    env = gym.make(args.env)
+    env = CarRacingWrapper(gym.make(ENV))
     env.seed(args.seed + 10000*i)
     envs.append(env)
 env = ParallelEnv(envs)
@@ -48,7 +49,7 @@ env = ParallelEnv(envs)
 # Define agent
 
 model_dir = utils.get_model_dir(args.model)
-agent = utils.Agent(args.env, env.observation_space, model_dir, args.argmax, args.procs)
+agent = utils.Agent(ENV, env.observation_space, model_dir, args.argmax, args.procs)
 print("CUDA available: {}\n".format(torch.cuda.is_available()))
 
 # Initialize logs
