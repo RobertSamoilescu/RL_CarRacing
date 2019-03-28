@@ -66,25 +66,36 @@ class PPOAlgo(BaseAlgo):
                     else:
                         dist, value = self.acmodel(sb.obs)
 
-                    entropy = dist.entropy().mean()
+                    # compute mean entropy
+                    steer_dist, acc_dist = dist
+                    steer_entropy = steer_dist.entropy().mean()
+                    acc_entropy = acc_dist.entropy().mean()
 
-                    ratio = torch.exp(dist.log_prob(sb.action) - sb.log_prob)
+                    # compute steer policy loss
+                    ratio = torch.exp(steer_dist.log_prob(sb.steer_action) - sb.steer_log_prob)
                     surr1 = ratio * sb.advantage
                     surr2 = torch.clamp(ratio, 1.0 - self.clip_eps, 1.0 + self.clip_eps) * sb.advantage
-                    policy_loss = -torch.min(surr1, surr2).mean()
+                    steer_policy_loss = -torch.min(surr1, surr2).mean()
 
+                    # compute acceleration policy loss
+                    ratio = torch.exp(acc_dist.log_prob(sb.acc_action) - sb.acc_log_prob)
+                    surr1 = ratio * sb.advantage
+                    surr2 = torch.clamp(ratio, 1.0 - self.clip_eps, 1.0 + self.clip_eps) * sb.advantage
+                    acc_policy_loss = -torch.min(surr1, surr2).mean()
+
+                    # compute value loss
                     value_clipped = sb.value + torch.clamp(value - sb.value, -self.clip_eps, self.clip_eps)
                     surr1 = (value - sb.returnn).pow(2)
                     surr2 = (value_clipped - sb.returnn).pow(2)
                     value_loss = torch.max(surr1, surr2).mean()
 
-                    loss = policy_loss - self.entropy_coef * entropy + self.value_loss_coef * value_loss
+                    # compute loss
+                    loss = steer_policy_loss + acc_policy_loss - self.entropy_coef * (steer_entropy + acc_entropy) + self.value_loss_coef * value_loss
 
                     # Update batch values
-
-                    batch_entropy += entropy.item()
+                    batch_entropy += steer_entropy.item() + acc_entropy.item()
                     batch_value += value.mean().item()
-                    batch_policy_loss += policy_loss.item()
+                    batch_policy_loss += steer_policy_loss.item() + acc_policy_loss.item()
                     batch_value_loss += value_loss.item()
                     batch_loss += loss
 

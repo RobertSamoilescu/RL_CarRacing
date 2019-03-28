@@ -98,12 +98,13 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
             embedding = torch.cat((embedding, embed_text), dim=1)
 
         x = self.actor(embedding)
-        dist = Categorical(logits=F.log_softmax(x, dim=1))
+        steer_dist = Categorical(logits=F.log_softmax(x[:, :181], dim=1))
+        acc_dist = Categorical(logits=F.log_softmax(x[:, 181:], dim=1))
 
         x = self.critic(embedding)
         value = x.squeeze(1)
 
-        return dist, value, memory
+        return (steer_dist, acc_dist), value, memory
 
     def _get_embed_text(self, text):
         _, hidden = self.text_rnn(self.word_embedding(text))

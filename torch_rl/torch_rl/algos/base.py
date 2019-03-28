@@ -82,11 +82,13 @@ class BaseAlgo(ABC):
             self.memories = torch.zeros(*shape, self.acmodel.memory_size, device=self.device)
         self.mask = torch.ones(shape[1], device=self.device)
         self.masks = torch.zeros(*shape, device=self.device)
-        self.actions = torch.zeros(*shape, device=self.device, dtype=torch.int)
+        self.steer_actions = torch.zeros(*shape, device=self.device, dtype=torch.int)
+        self.acc_actions = torch.zeros(*shape, device=self.device, dtype=torch.int)
         self.values = torch.zeros(*shape, device=self.device)
         self.rewards = torch.zeros(*shape, device=self.device)
         self.advantages = torch.zeros(*shape, device=self.device)
-        self.log_probs = torch.zeros(*shape, device=self.device)
+        self.steer_log_probs = torch.zeros(*shape, device=self.device)
+        self.acc_log_probs = torch.zeros(*shape, device=self.device)
 
         # Initialize log values
 
@@ -129,9 +131,13 @@ class BaseAlgo(ABC):
                     dist, value, memory = self.acmodel(preprocessed_obs, self.memory * self.mask.unsqueeze(1))
                 else:
                     dist, value = self.acmodel(preprocessed_obs)
-            action = dist.sample()
 
-            obs, reward, done, _ = self.env.step(action.cpu().numpy())
+            steer_dist, acc_dist = dist
+            steer_action = steer_dist.sample()
+            acc_action = acc_dist.sample()
+
+            actions = list(zip(steer_action.cpu().numpy(), acc_action.cpu().numpy()))
+            obs, reward, done, _ = self.env.step(actions)
 
             # Update experiences values
 
@@ -142,19 +148,20 @@ class BaseAlgo(ABC):
                 self.memory = memory
             self.masks[i] = self.mask
             self.mask = 1 - torch.tensor(done, device=self.device, dtype=torch.float)
-            self.actions[i] = action
+            self.steer_actions[i] = steer_action
+            self.acc_actions[i] = acc_action
             self.values[i] = value
             if self.reshape_reward is not None:
                 self.rewards[i] = torch.tensor([
                     self.reshape_reward(obs_, action_, reward_, done_)
-                    for obs_, action_, reward_, done_ in zip(obs, action, reward, done)
+                    for obs_, action_, reward_, done_ in zip(obs, (steer_action, acc_action), reward, done)
                 ], device=self.device)
             else:
                 self.rewards[i] = torch.tensor(reward, device=self.device)
-            self.log_probs[i] = dist.log_prob(action)
+            self.steer_log_probs[i] = steer_dist.log_prob(steer_action)
+            self.acc_log_probs[i] = acc_dist.log_prob(acc_action)
 
             # Update log values
-
             self.log_episode_return += torch.tensor(reward, device=self.device, dtype=torch.float)
             self.log_episode_reshaped_return += self.rewards[i]
             self.log_episode_num_frames += torch.ones(self.num_procs, device=self.device)
@@ -205,12 +212,14 @@ class BaseAlgo(ABC):
             # T x P -> P x T -> (P * T) x 1
             exps.mask = self.masks.transpose(0, 1).reshape(-1).unsqueeze(1)
         # for all tensors below, T x P -> P x T -> P * T
-        exps.action = self.actions.transpose(0, 1).reshape(-1)
+        exps.steer_action = self.steer_actions.transpose(0, 1).reshape(-1)
+        exps.acc_action = self.acc_actions.transpose(0, 1).reshape(-1)
         exps.value = self.values.transpose(0, 1).reshape(-1)
         exps.reward = self.rewards.transpose(0, 1).reshape(-1)
         exps.advantage = self.advantages.transpose(0, 1).reshape(-1)
         exps.returnn = exps.value + exps.advantage
-        exps.log_prob = self.log_probs.transpose(0, 1).reshape(-1)
+        exps.steer_log_prob = self.steer_log_probs.transpose(0, 1).reshape(-1)
+        exps.acc_log_prob = self.acc_log_probs.transpose(0, 1).reshape(-1)
 
         # Preprocess experiences
 

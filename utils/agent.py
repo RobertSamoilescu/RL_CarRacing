@@ -25,19 +25,24 @@ class Agent:
                 dist, _, self.memories = self.acmodel(preprocessed_obss, self.memories)
             else:
                 dist, _ = self.acmodel(preprocessed_obss)
+        steer_dist, acc_dist = dist
 
         if self.argmax:
-            actions = dist.probs.max(1, keepdim=True)[1]
+            steer_actions = steer_dist.probs.max(1, keepdim=True)[1]
+            acc_actions = acc_dist.probs.max(1, keepdim=True)[1]
         else:
-            actions = dist.sample()
+            steer_actions = steer_dist.sample()
+            acc_actions = acc_dist.sample()
 
         if torch.cuda.is_available():
-            actions = actions.cpu().numpy()
+            steer_actions = steer_actions.cpu().numpy()
+            acc_actions = acc_actions.cpu().numpy()
 
+        actions = list(zip(steer_actions, acc_actions))
         return actions
 
     def get_action(self, obs):
-        return self.get_actions([obs]).item()
+        return self.get_actions([obs])[0]
 
     def analyze_feedbacks(self, rewards, dones):
         if self.acmodel.recurrent:
