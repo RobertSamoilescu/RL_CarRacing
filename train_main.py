@@ -41,7 +41,7 @@ def extra_log_fields(header: list, log_keys: list) ->list:
     return extra_fields
 
 
-def get_envs(full_args, env_wrapper, no_envs, n_actions=6):
+def get_envs(full_args, env_wrapper, no_envs, n_actions=6, master_make=False):
     """ Minigrid action 6 is Done - useless"""
     envs = []
     args = full_args.main
@@ -59,12 +59,14 @@ def get_envs(full_args, env_wrapper, no_envs, n_actions=6):
     for env_i in range(1, no_envs, chunk_size):
         env_chunk = []
         for i in range(env_i, min(env_i + chunk_size, no_envs)):
-            env = gym.make(args.env)
-            # env.action_space.n = n_actions
-            env.max_steps = full_args.env_cfg.max_episode_steps
-            env = env_wrapper(env)
-            env.seed(args.seed + 10000 * i)
-
+            if master_make:
+                env = gym.make(args.env)
+                # env.action_space.n = n_actions
+                env.max_steps = full_args.env_cfg.max_episode_steps
+                env = env_wrapper(env)
+                env.seed(args.seed + 10000 * i)
+            else:
+                env = [i, full_args, args]
             env_chunk.append(env)
         envs.append(env_chunk)
 
@@ -150,11 +152,13 @@ def run(full_args: Namespace) -> None:
 
     actual_procs = getattr(args, "actual_procs", None)
     no_actions = getattr(full_args.env_cfg, "no_actions", 6)
+    master_make_envs = getattr(full_args.env_cfg, "master_make_envs", False)
 
     if actual_procs:
         # Split envs in chunks
         no_envs = args.procs
-        envs, chunk_size = get_envs(full_args, env_wrapper, no_envs, n_actions=no_actions)
+        envs, chunk_size = get_envs(full_args, env_wrapper, no_envs, n_actions=no_actions,
+                                    master_make=master_make_envs)
         first_env = envs[0][0]
         print(f"NO of envs / proc: {chunk_size}; No of processes {len(envs[1:])} + Master")
     else:
@@ -170,7 +174,8 @@ def run(full_args: Namespace) -> None:
     eval_envs = []
     if full_args.env_cfg.no_eval_envs > 0:
         no_envs = full_args.env_cfg.no_eval_envs
-        eval_envs, chunk_size = get_envs(full_args, env_wrapper, no_envs, n_actions=no_actions)
+        eval_envs, chunk_size = get_envs(full_args, env_wrapper, no_envs, n_actions=no_actions,
+                                         master_make=master_make_envs)
 
     # Define obss preprocessor
     max_image_value = full_args.env_cfg.max_image_value
@@ -251,8 +256,9 @@ def run(full_args: Namespace) -> None:
         num_frames += logs["num_frames"]
         update += 1
 
-        if update % args.eval_interval == 0 and has_evaluator:
-            algo.evaluate()
+        if has_evaluator:
+            if update % args.eval_interval == 0:
+                algo.evaluate()
 
         prev_start_time = update_start_time
         update_start_time = time.time()

@@ -53,6 +53,10 @@ class CarRacingWrapper(Wrapper):
         observation = np.expand_dims(observation, 2)
         return observation
 
+    @property
+    def track(self):
+        return self.env.track
+
 
 if __name__ == "__main__":
     import cv2

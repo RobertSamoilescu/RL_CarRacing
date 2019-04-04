@@ -1,10 +1,48 @@
-# from multiprocessing import Process, Pipe
-from torch.multiprocessing import Process, Pipe
+from multiprocessing import Process, Pipe
+# from torch.multiprocessing import Process, Pipe
 import gym
+import numpy as np
+from environment.env import CarRacingWrapper
+import environment
+
+
+def get_wrappers(full_args):
+    wrapper_method = getattr(full_args.env_cfg, "wrapper", None)
+    if wrapper_method is None:
+        def idem(x):
+            return x
+
+        env_wrapper = idem
+    else:
+        env_wrappers = [getattr(environment, w_p) for w_p in wrapper_method]
+
+        def env_wrapp(w_env):
+            for wrapper in env_wrappers[::-1]:
+                w_env = wrapper(w_env)
+            return w_env
+
+        env_wrapper = env_wrapp
+    return env_wrapper
+
+
+def create_env(i, full_args, args):
+    env = gym.make(args.env)
+    # env.action_space.n = n_actions
+    env.max_steps = full_args.env_cfg.max_episode_steps
+
+    env_wrapper = get_wrappers(full_args)
+
+    env = env_wrapper(env)
+
+    env.seed(args.seed + 10000 * i)
+    return env
 
 
 def worker_multi(conn, conn_send, envs):
     envs = list(envs)
+    if isinstance(envs, list):
+        envs = [[i, create_env(*env_arg)] for i, env_arg in envs]
+
     min_idx = envs[0][0]
     while True:
         cmd, datas = conn.recv()
@@ -63,6 +101,7 @@ class ParallelEnvChunks(gym.Env):
             env_idx, r = local.recv()
             results[env_idx] = r
             no_recv += 1
+
         return results
 
     def step(self, actions):
