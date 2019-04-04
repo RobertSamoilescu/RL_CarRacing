@@ -1,6 +1,6 @@
 from gym import Wrapper
 import numpy as np
-import env.bev as bev
+import environment.bev as bev
 
 import gym
 
@@ -34,7 +34,7 @@ class CarRacingWrapper(Wrapper):
         # increment number of steps
         self.counter += 1
         if self.counter > self.max_steps:
-        	done = True
+            done = True
 
         return observation, reward, done, info
 

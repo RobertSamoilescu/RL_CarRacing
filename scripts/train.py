@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/environment python3
 
 import argparse
 import gym
@@ -15,14 +15,14 @@ except ImportError:
 
 import utils
 from model import ACModel
-from env.env import CarRacingWrapper
+from environment.env import CarRacingWrapper
 
 # Parse arguments
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument("--algo", required=True,
                     help="algorithm to use: a2c | ppo (REQUIRED)")
-# parser.add_argument("--env", required=True,
+# parser.add_argument("--environment", required=True,
 #                     help="name of the environment to train on (REQUIRED)")
 parser.add_argument("--model", default=None,
                     help="name of the model (default: {ENV}_{ALGO}_{TIME})")

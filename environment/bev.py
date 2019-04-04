@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
     observation = env.reset()
     for _ in range(10000):
-        action = np.array([0, 0.1, 0])  # env.action_space.sample()  # your agent here (this takes random actions)
+        action = np.array([0, 0.1, 0])  # environment.action_space.sample()  # your agent here (this takes random actions)
         observation, reward, done, info = env.step(action)
 
         road = from_bird_view(observation)

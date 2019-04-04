@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/environment python3
 
 import argparse
 import gym
 import time
 import cv2
-from env.env import CarRacingWrapper
+from environment.env import CarRacingWrapper
 
 
 try:
@@ -17,7 +17,7 @@ import utils
 # Parse arguments
 
 parser = argparse.ArgumentParser()
-# parser.add_argument("--env", required=True,
+# parser.add_argument("--environment", required=True,
 #                     help="name of the environment to be run (REQUIRED)")
 parser.add_argument("--model", required=True,
                     help="name of the trained model (REQUIRED)")

@@ -1,11 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/environment python3
 
 import argparse
 import gym
 import time
 import torch
 from torch_rl.utils.penv import ParallelEnv
-from env.env import CarRacingWrapper
+from environment.env import CarRacingWrapper
 
 try:
     import gym_minigrid
@@ -17,7 +17,7 @@ import utils
 # Parse arguments
 
 parser = argparse.ArgumentParser()
-# parser.add_argument("--env", required=True,
+# parser.add_argument("--environment", required=True,
 #                     help="name of the environment to be run (REQUIRED)")
 parser.add_argument("--model", required=True,
                     help="name of the trained model (REQUIRED)")
