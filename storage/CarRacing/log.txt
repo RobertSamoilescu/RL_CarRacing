@@ -1,0 +1,291 @@
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 50 --procs 1 --tb
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, mem=False, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=1, save_interval=50, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0041 | D 3 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 10.259 | V -0.280 | pL -0.481 | vL 18.874 | ∇ 9.638
+U 2 | F 000256 | FPS 0037 | D 6 | rR:μσmM -39.65 0.00 -39.65 -39.65 | F:μσmM 235.0 0.0 235.0 235.0 | H 10.132 | V -0.636 | pL 7.118 | vL 30.830 | ∇ 5.127
+U 3 | F 000384 | FPS 0036 | D 10 | rR:μσmM -358.97 0.00 -358.97 -358.97 | F:μσmM 106.0 0.0 106.0 106.0 | H 9.330 | V -1.631 | pL 82.460 | vL 11207.616 | ∇ 135.363
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 50 --procs 1 --tb --recurrence 128 --lr 1e-5
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=1e-05, max_grad_norm=0.5, mem=True, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=128, save_interval=50, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (memory_rnn): GRUCell(5184, 1024)
+  (actor): Sequential(
+    (0): Linear(in_features=1024, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=1024, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0022 | D 5 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H nan | V nan | pL nan | vL nan | ∇ nan
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 50 --procs 1 --tb --recurrence 128 --lr 1e-6
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=1e-06, max_grad_norm=0.5, mem=True, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=128, save_interval=50, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (memory_rnn): GRUCell(5184, 1024)
+  (actor): Sequential(
+    (0): Linear(in_features=1024, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=1024, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0023 | D 5 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H nan | V nan | pL nan | vL nan | ∇ nan
+U 2 | F 000256 | FPS 0022 | D 11 | rR:μσmM -10.67 0.00 -10.67 -10.67 | F:μσmM 235.0 0.0 235.0 235.0 | H nan | V nan | pL nan | vL nan | ∇ nan
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 50 --procs 1 --tb --recurrence 128 --lr 1e-12
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=1e-12, max_grad_norm=0.5, mem=True, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=128, save_interval=50, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (memory_rnn): GRUCell(5184, 1024)
+  (actor): Sequential(
+    (0): Linear(in_features=1024, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=1024, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0023 | D 5 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H nan | V nan | pL nan | vL nan | ∇ nan
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 50 --procs 1 --tb --recurrence 32
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, mem=True, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=32, save_interval=50, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (memory_rnn): GRUCell(5184, 1024)
+  (actor): Sequential(
+    (0): Linear(in_features=1024, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=1024, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0028 | D 4 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 10.237 | V 1.239 | pL -9.635 | vL 90.172 | ∇ 13.364
+U 2 | F 000256 | FPS 0026 | D 9 | rR:μσmM -10.67 0.00 -10.67 -10.67 | F:μσmM 235.0 0.0 235.0 235.0 | H 10.470 | V -0.545 | pL 9.574 | vL 31.301 | ∇ 19.607
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 50 --procs 1 --tb --recurrence 64
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, mem=True, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=64, save_interval=50, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (memory_rnn): GRUCell(5184, 1024)
+  (actor): Sequential(
+    (0): Linear(in_features=1024, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=1024, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0022 | D 5 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 10.267 | V 2.006 | pL -16.273 | vL 127.047 | ∇ 19.930
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 50 --procs 1 --tb --recurrence 128
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, mem=True, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=128, save_interval=50, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (memory_rnn): GRUCell(5184, 1024)
+  (actor): Sequential(
+    (0): Linear(in_features=1024, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=1024, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0023 | D 5 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H nan | V nan | pL nan | vL nan | ∇ nan
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 50 --procs 1 --tb --recurrence 64
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, mem=True, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=64, save_interval=50, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (memory_rnn): GRUCell(5184, 1024)
+  (actor): Sequential(
+    (0): Linear(in_features=1024, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=1024, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0022 | D 5 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 10.268 | V 2.011 | pL -16.275 | vL 127.065 | ∇ 19.846

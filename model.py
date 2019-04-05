@@ -23,7 +23,7 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # Decide which components are enabled
         self.use_memory = use_memory
         self._memory_size = memory_size = 1024
-        memory_type = "GRU"
+        self.memory_type = "GRU"
 
         # Define image embedding
         # kernel_size = 5; stride = 1
@@ -52,7 +52,7 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
 
         n = obs_space["image"][0]
         m = obs_space["image"][1]
-        # self.image_embedding_size = ((n-1)//2-2)*((m-1)//2-2)*64
+
         def get_output_size(I, K, S, P=0):
             return (I - K + 2 * P) // S + 1
 
@@ -61,12 +61,12 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
             n = get_output_size(n, kernel_size, stride)
             m = get_output_size(m, kernel_size, stride)
         
-        no_last_fiters = 64
-        self.image_embedding_size = n * m * no_last_fiters
+        no_last_filters = 64
+        self.image_embedding_size = n * m * no_last_filters
 
         # Define memory
         if self.use_memory:
-            if memory_type == "LSTM":
+            if self.memory_type == "LSTM":
                 self.memory_rnn = nn.LSTMCell(self.image_embedding_size, memory_size)
             else:
                 self.memory_rnn = nn.GRUCell(self.image_embedding_size, memory_size)
@@ -76,7 +76,6 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # Define actor's model
         if isinstance(action_space, gym.spaces.Discrete):
             self.actor = nn.Sequential(
-                nn.Linear(self.embedding_size, 1024),
                 nn.Linear(self.image_embedding_size, 1024),
                 nn.Tanh(),
                 nn.Linear(1024, action_space.n)
@@ -96,11 +95,10 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
 
     @property
     def memory_size(self):
-        return 2*self.semi_memory_size
-
-    @property
-    def semi_memory_size(self):
-        return self.image_embedding_size
+        if self.memory_type == "LSTM":
+            return 2 * self._memory_size
+        else:
+            return self._memory_size
 
     def forward(self, obs, memory):
         x = obs.image
@@ -108,10 +106,16 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         x = x.reshape(x.shape[0], -1)
 
         if self.use_memory:
-            hidden = (memory[:, :self._memory_size], memory[:, self._memory_size:])
-            hidden = self.memory_rnn(x, hidden)
-            embedding = hidden[0]
-            memory = torch.cat(hidden, dim=1)
+            if self.memory_type == "LSTM":
+                hidden = (memory[:, :self._memory_size], memory[:, self._memory_size:])
+                hidden = self.memory_rnn(x, hidden)
+                embedding = hidden[0]
+                memory = torch.cat(hidden, dim=1)
+            else:
+                hidden = memory
+                hidden = self.memory_rnn(x, hidden)
+                embedding = hidden
+                memory = hidden
         else:
             embedding = x
 
