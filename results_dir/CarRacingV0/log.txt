@@ -1,0 +1,290 @@
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(actual_procs=8, algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacingV0', model_dir='results_dir/CarRacingV0', procs=8, save_all='fasle', save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(actual_procs=8, algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacingV0', model_dir='results_dir/CarRacingV0', procs=8, save_all='fasle', save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(actual_procs=4, algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacingV0', model_dir='results_dir/CarRacingV0', procs=8, save_all='fasle', save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(actual_procs=2, algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacingV0', model_dir='results_dir/CarRacingV0', procs=2, save_all='fasle', save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000200 | FPS 0036 | D 5 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 10.212 | V -1.484 | pL 2.806 | vL 196.433 | ∇ 98.825
+U 2 | F 000400 | FPS 0035 | D 11 | rR:μσmM -115.43 133.85 -297.07 21.54 | F:μσmM 89.7 40.1 33.0 118.0 | H 9.997 | V -3.321 | pL 55.851 | vL 4141.137 | ∇ 19.668
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(actual_procs=8, algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacingV0', model_dir='results_dir/CarRacingV0', procs=8, save_all='fasle', save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(actual_procs=8, algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacingV0', model_dir='results_dir/CarRacingV0', procs=16, save_all='fasle', save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(actual_procs=5, algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacingV0', model_dir='results_dir/CarRacingV0', procs=16, save_all='fasle', save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(actual_procs=4, algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacingV0', model_dir='results_dir/CarRacingV0', procs=16, save_all='fasle', save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+

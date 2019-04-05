@@ -41,17 +41,20 @@ def extra_log_fields(header: list, log_keys: list) ->list:
     return extra_fields
 
 
-def get_envs(full_args, env_wrapper, no_envs, n_actions=6, master_make=False):
+def get_envs(full_args, env_wrapper, no_envs, master_make=False):
     """ Minigrid action 6 is Done - useless"""
     envs = []
     args = full_args.main
     actual_procs = args.actual_procs
     add_to_cfg(full_args, MAIN_CFG_ARGS, "out_dir", full_args.out_dir)
 
+    # create env
     env = gym.make(args.env)
-    # env.action_space.n = n_actions
-    env.max_steps = full_args.env_cfg.max_episode_steps
     env = env_wrapper(env)
+
+    # add env arguments
+    env.max_steps = full_args.env_cfg.max_episode_steps
+    env.no_stacked_frames = full_args.env_cfg.no_stacked_frames
     env.seed(args.seed + 10000 * 0)
 
     envs.append([env])
@@ -60,10 +63,13 @@ def get_envs(full_args, env_wrapper, no_envs, n_actions=6, master_make=False):
         env_chunk = []
         for i in range(env_i, min(env_i + chunk_size, no_envs)):
             if master_make:
+                # create env
                 env = gym.make(args.env)
-                # env.action_space.n = n_actions
-                env.max_steps = full_args.env_cfg.max_episode_steps
                 env = env_wrapper(env)
+
+                # add env arguments
+                env.max_steps = full_args.env_cfg.max_episode_steps
+                env.no_stacked_frames = full_args.env_cfg.no_stacked_frames
                 env.seed(args.seed + 10000 * i)
             else:
                 env = [i, full_args, args]
@@ -96,6 +102,7 @@ def run(full_args: Namespace) -> None:
     args = full_args.main
     agent_args = full_args.agent
     model_args = full_args.model
+    env_args = full_args.env_cfg
     extra_logs = getattr(full_args, "extra_logs", None)
 
     if args.seed == 0:
@@ -151,13 +158,12 @@ def run(full_args: Namespace) -> None:
         env_wrapper = env_wrapp
 
     actual_procs = getattr(args, "actual_procs", None)
-    no_actions = getattr(full_args.env_cfg, "no_actions", 6)
     master_make_envs = getattr(full_args.env_cfg, "master_make_envs", False)
 
     if actual_procs:
         # Split envs in chunks
         no_envs = args.procs
-        envs, chunk_size = get_envs(full_args, env_wrapper, no_envs, n_actions=no_actions,
+        envs, chunk_size = get_envs(full_args, env_wrapper, no_envs,
                                     master_make=master_make_envs)
         first_env = envs[0][0]
         print(f"NO of envs / proc: {chunk_size}; No of processes {len(envs[1:])} + Master")
@@ -165,6 +171,7 @@ def run(full_args: Namespace) -> None:
         for i in range(args.procs):
             env = env_wrapper(gym.make(args.env))
             env.max_steps = full_args.env_cfg.max_episode_steps
+            env.no_stacked_frames = full_args.env_cfg.no_stacked_frames
 
             env.seed(args.seed + 10000 * i)
             envs.append(env)
@@ -174,29 +181,16 @@ def run(full_args: Namespace) -> None:
     eval_envs = []
     if full_args.env_cfg.no_eval_envs > 0:
         no_envs = full_args.env_cfg.no_eval_envs
-        eval_envs, chunk_size = get_envs(full_args, env_wrapper, no_envs, n_actions=no_actions,
-                                         master_make=master_make_envs)
+        eval_envs, chunk_size = get_envs(full_args, env_wrapper, no_envs, master_make=master_make_envs)
 
     # Define obss preprocessor
     max_image_value = full_args.env_cfg.max_image_value
     normalize_img = full_args.env_cfg.normalize
-    obs_space, preprocess_obss = utils.get_obss_preprocessor(args.env, first_env.observation_space,
+    obs_space, preprocess_obss = utils.get_obss_preprocessor(args.env,
+                                                             first_env.observation_space,
                                                              model_dir,
                                                              max_image_value=max_image_value,
                                                              normalize=normalize_img)
-
-    # first_obs = first_env.reset()
-    # if "state" in first_obs:
-    #     full_state_size = first_obs["state"].shape
-    #
-    #     # Add full size shape
-    #     add_to_cfg(full_args, MAIN_CFG_ARGS, "full_state_size", full_state_size)
-    #
-    # if "position" in first_obs:
-    #     position_size = first_obs["position"].shape
-    #
-    #     # Add full size shape
-    #     add_to_cfg(full_args, MAIN_CFG_ARGS, "position_size", position_size)
 
     # ==============================================================================================
     # Load training status
@@ -219,7 +213,9 @@ def run(full_args: Namespace) -> None:
 
     if model is None:
         model = get_model(model_args, obs_space, first_env.action_space,
-                          use_memory=model_args.mem)
+                          use_memory=model_args.use_memory,
+                          no_stacked_frames=env_args.no_stacked_frames
+                          )
         logger.info(f"Model [{model_args.name}] successfully created\n")
 
         # Print Model info

@@ -33,7 +33,8 @@ def create_env(i, full_args, args):
     env_wrapper = get_wrappers(full_args)
 
     env = env_wrapper(env)
-
+    env.max_steps = full_args.env_cfg.max_episode_steps
+    env.no_stacked_frames = full_args.env_cfg.no_stacked_frames
     env.seed(args.seed + 10000 * i)
     return env
 

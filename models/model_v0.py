@@ -11,34 +11,46 @@ from models.utils import initialize_parameters
 
 
 class ModelV0(nn.Module, torch_rl.RecurrentACModel):
-    def __init__(self, cfg, obs_space, action_space, use_memory=False, use_text=False):
+    def __init__(self, cfg, obs_space, action_space, use_memory=False, no_stacked_frames=4):
         super().__init__()
 
         # CFG Information
         self.memory_type = memory_type = cfg.memory_type
-        hidden_size = getattr(cfg, "hidden_size", 128)
-        self._memory_size = memory_size = getattr(cfg, "memory_size", 128)
+        self._memory_size = memory_size = getattr(cfg, "memory_size", 1024)
 
         # Decide which components are enabled
         self.use_memory = use_memory
 
+        print("**************", no_stacked_frames)
+
         # Define image embedding
+        kernel_size = 5; stride = 2
         self.image_conv = nn.Sequential(
-            nn.Conv2d(1, 16, (2, 2)),
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2)),
-            nn.Conv2d(16, 32, (2, 2)),
-            nn.ReLU(),
-            nn.Conv2d(32, 64, (2, 2)),
-            nn.ReLU()
+                nn.Conv2d(no_stacked_frames, 16, kernel_size=kernel_size, stride=stride),
+                nn.BatchNorm2d(16),
+                nn.ReLU(),
+                nn.Conv2d(16, 32, kernel_size=kernel_size, stride=stride),
+                nn.BatchNorm2d(32),
+                nn.ReLU(),
+                nn.Conv2d(32, 64, kernel_size=kernel_size, stride=stride),
+                nn.BatchNorm2d(64),
+                nn.ReLU()
         )
+
         n = obs_space["image"][0]
         m = obs_space["image"][1]
-        self.image_embedding_size = ((n-1)//2-2)*((m-1)//2-2)*64
 
-        self.fc1 = nn.Linear(self.image_embedding_size, hidden_size)
+        def get_output_size(I, K, S, P=0):
+            return (I - K + 2 * P) // S + 1
 
-        crt_size = hidden_size
+        no_conv_layers = 3
+        for _ in range(no_conv_layers):
+            n = get_output_size(n, kernel_size, stride)
+            m = get_output_size(m, kernel_size, stride)
+        
+        no_last_filters = 64
+        self.image_embedding_size = n * m * no_last_filters
+        crt_size = self.image_embedding_size
 
         # Define memory
         if self.use_memory:
@@ -77,10 +89,9 @@ class ModelV0(nn.Module, torch_rl.RecurrentACModel):
             return self._memory_size
 
     def forward(self, obs, memory):
-        x = torch.transpose(torch.transpose(obs.image, 1, 3), 2, 3)
+        x = obs.image
         x = self.image_conv(x)
         x = x.reshape(x.shape[0], -1)
-        x = self.fc1(x)
 
         if self.use_memory:
             if self.memory_type == "LSTM":

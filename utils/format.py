@@ -14,40 +14,29 @@ import utils
 
 
 def get_obss_preprocessor(env_id, obs_space, model_dir, max_image_value=15., normalize=True):
-    # Check if it is a MiniGrid environment
-    if re.match("MiniGrid-.*", env_id):
-        obs_space = {"image": obs_space.spaces['image'].shape, "text": 100}
-
-        vocab = Vocabulary(model_dir, obs_space["text"])
-        def preprocess_obss(obss, device=None):
-            return torch_rl.DictList({
-                "image": preprocess_images([obs["image"] for obs in obss], device=device,
-                                           max_image_value=max_image_value, normalize=normalize),
-                "text": preprocess_texts([obs["mission"] for obs in obss], vocab, device=device)
-            })
-        preprocess_obss.vocab = vocab
-
     # Check if the obs_space is of type Box([X, Y, 3])
-    elif isinstance(obs_space, gym.spaces.Box) and len(obs_space.shape) == 3 and obs_space.shape[2] == 3:
+    if isinstance(obs_space, gym.spaces.Box) and len(obs_space.shape) == 3 and obs_space.shape[2] == 3:
         obs_space = {"image": obs_space.shape}
 
         def preprocess_obss(obss, device=None):
             return torch_rl.DictList({
                 "image": preprocess_images(obss, device=device)
             })
-
     else:
         raise ValueError("Unknown observation space: " + str(obs_space))
 
     return obs_space, preprocess_obss
 
-def preprocess_images(images, device=None, max_image_value=15., normalize=True):
+def preprocess_images(images, device=None, max_image_value=255, normalize=True):
     # Bug of Pytorch: very slow if not first converted to numpy array
     images = numpy.array(images)
     images = torch.tensor(images, device=device, dtype=torch.float)
-    # TODO Transpose from model fwd pass
+
     if normalize:
-        images.div_(max_image_value)
+        value = max_image_value / 2
+        images.sub_(value)
+        images.div_(value)
+
     return images
 
 def preprocess_texts(texts, vocab, device=None):
