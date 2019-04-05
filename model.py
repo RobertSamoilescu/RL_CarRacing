@@ -70,9 +70,9 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # Define actor's model
         if isinstance(action_space, gym.spaces.Discrete):
             self.actor = nn.Sequential(
-                nn.Linear(self.embedding_size, 512),
+                nn.Linear(self.embedding_size, 1024),
                 nn.Tanh(),
-                nn.Linear(512, action_space.n)
+                nn.Linear(1024, action_space.n)
             )
         else:
             raise ValueError("Unknown action space: " + str(action_space))

@@ -59,7 +59,7 @@ while True:
     renderer = env.render()
 
     # show obs
-    cv2.imshow("OBS", obs)
+    cv2.imshow("OBS", obs[0])
     cv2.waitKey(1)
 
     action = agent.get_action(obs)
