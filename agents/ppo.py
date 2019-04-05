@@ -155,7 +155,6 @@ class PPOAlgo(BaseAlgoV0):
         logs["policy_loss"] = numpy.mean(log_policy_losses)
         logs["value_loss"] = numpy.mean(log_value_losses)
         logs["grad_norm"] = numpy.mean(log_grad_norms)
-        logs["ana"] = numpy.mean(log_grad_norms)
 
         return logs
 

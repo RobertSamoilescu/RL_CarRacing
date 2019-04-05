@@ -6,7 +6,7 @@ main:
   log_interval: 1 # type=int, default=1, help="number of updates between two logs (default: 1)")
   eval_interval: 0
   save_interval: 10 # type=int, default=0, help="number of updates between two saves (default: 0, 0 means no saving)")
-  tb: false # action="store_true", default=False, help="log into Tensorboard")
+  tb: true # action="store_true", default=False, help="log into Tensorboard")
   
   
   model_dir: storage
@@ -18,7 +18,7 @@ main:
   save_all: false
 
 env_cfg:
-  max_episode_steps: 1000 # environment steps
+  max_episode_steps: 1024 # environment steps
   max_image_value: 255.
   normalize: true
   wrapper: ["car_racing"]

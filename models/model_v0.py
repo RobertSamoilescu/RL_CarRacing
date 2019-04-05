@@ -21,8 +21,6 @@ class ModelV0(nn.Module, torch_rl.RecurrentACModel):
         # Decide which components are enabled
         self.use_memory = use_memory
 
-        print("**************", no_stacked_frames)
-
         # Define image embedding
         kernel_size = 5; stride = 2
         self.image_conv = nn.Sequential(
