@@ -39,7 +39,7 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
 
         kernel_size = 5; stride = 2
         self.image_conv = nn.Sequential(
-                nn.Conv2d(4, 16, kernel_size=kernel_size, stride=stride),
+                nn.Conv2d(1, 16, kernel_size=kernel_size, stride=stride),
                 nn.BatchNorm2d(16),
                 nn.ReLU(),
                 nn.Conv2d(16, 32, kernel_size=kernel_size, stride=stride),

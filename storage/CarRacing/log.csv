@@ -18,3 +18,5 @@ update,frames,FPS,duration,rreturn_mean,rreturn_std,rreturn_min,rreturn_max,num_
 1,128,22.66074486683527,5,0.0,0.0,0,0,0.0,0.0,0,0,nan,nan,nan,nan,nan,0.0,0.0,0,0
 update,frames,FPS,duration,rreturn_mean,rreturn_std,rreturn_min,rreturn_max,num_frames_mean,num_frames_std,num_frames_min,num_frames_max,entropy,value,policy_loss,value_loss,grad_norm,return_mean,return_std,return_min,return_max
 1,128,22.026423046999895,5,0.0,0.0,0,0,0.0,0.0,0,0,10.267773620784283,2.01126935321372,-16.27535304869525,127.06494599813595,19.846309767458546,0.0,0.0,0,0
+update,frames,FPS,duration,rreturn_mean,rreturn_std,rreturn_min,rreturn_max,num_frames_mean,num_frames_std,num_frames_min,num_frames_max,entropy,value,policy_loss,value_loss,grad_norm,return_mean,return_std,return_min,return_max
+1,128,32.82536826140118,3,0.0,0.0,0,0,0.0,0.0,0,0,10.251804016530514,-0.3723875217838213,-2.8198569444939494,5.657875310629606,11.901194637263375,0.0,0.0,0,0
