@@ -88,3 +88,76 @@ Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
 Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
 Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
 Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(algo='ppo', env='CarRacing-v0', eval_interval=0, frames=20000000.0, log_interval=1, max_eprews=0, model='CarRacing', model_dir='results_dir/CarRacing', procs=8, save_all=False, save_best=True, save_interval=10, seed=1, tb=False)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+U 1 | F 000800 | FPS 0070 | D 11 | rR:μσmM -205.87 356.65 -837.46 0.00 | F:μσmM 16.2 28.6 0.0 75.0 | H 10.224 | V -3.371 | pL 72.727 | vL 14453.960 | ∇ 43.358
+U 2 | F 001600 | FPS 0068 | D 23 | rR:μσmM -104.30 177.17 -595.19 14.30 | F:μσmM 105.3 28.6 27.0 118.0 | H 10.129 | V -4.643 | pL 26.853 | vL 4085.248 | ∇ 43.621
+U 3 | F 002400 | FPS 0069 | D 34 | rR:μσmM -29.07 41.07 -76.35 38.38 | F:μσmM 118.0 0.0 118.0 118.0 | H 10.170 | V -4.271 | pL 12.691 | vL 89.604 | ∇ 5.697
+U 4 | F 003200 | FPS 0063 | D 47 | rR:μσmM -216.86 238.25 -583.00 -16.88 | F:μσmM 99.2 29.5 42.0 118.0 | H 10.136 | V -4.929 | pL 59.725 | vL 9147.577 | ∇ 82.603
+U 5 | F 004000 | FPS 0057 | D 61 | rR:μσmM -207.56 306.36 -829.46 29.78 | F:μσmM 102.8 22.4 62.0 118.0 | H 9.968 | V -5.963 | pL 43.623 | vL 8770.308 | ∇ 39.021
+U 6 | F 004800 | FPS 0059 | D 75 | rR:μσmM -266.77 265.36 -733.61 -7.44 | F:μσmM 93.2 28.1 52.0 118.0 | H 10.026 | V -6.072 | pL 91.497 | vL 12813.457 | ∇ 96.527
+U 7 | F 005600 | FPS 0062 | D 88 | rR:μσmM -104.95 115.65 -404.02 -30.21 | F:μσmM 95.4 39.2 27.0 118.0 | H 10.000 | V -6.379 | pL 15.849 | vL 1394.318 | ∇ 9.559
+U 8 | F 006400 | FPS 0059 | D 101 | rR:μσmM -126.05 188.86 -597.60 26.41 | F:μσmM 97.5 35.9 26.0 118.0 | H 10.010 | V -6.568 | pL 31.392 | vL 4196.323 | ∇ 28.080
+U 9 | F 007200 | FPS 0060 | D 115 | rR:μσmM -46.94 38.83 -82.95 41.49 | F:μσmM 118.0 0.0 118.0 118.0 | H 9.971 | V -6.628 | pL 7.423 | vL 60.383 | ∇ 8.964
+U 10 | F 008000 | FPS 0057 | D 129 | rR:μσmM -73.89 82.35 -288.86 -18.59 | F:μσmM 110.5 19.8 58.0 118.0 | H 9.978 | V -6.849 | pL 16.618 | vL 1034.468 | ∇ 10.121
+Model successfully saved
+U 11 | F 008800 | FPS 0059 | D 142 | rR:μσmM -161.95 230.41 -605.47 12.61 | F:μσmM 98.1 34.6 31.0 118.0 | H 9.960 | V -6.910 | pL 45.053 | vL 6658.619 | ∇ 28.798
+U 12 | F 009600 | FPS 0059 | D 156 | rR:μσmM -178.57 242.80 -710.03 -1.54 | F:μσmM 101.4 29.7 37.0 118.0 | H 9.954 | V -7.095 | pL 53.207 | vL 8011.271 | ∇ 25.736
+U 13 | F 010400 | FPS 0059 | D 169 | rR:μσmM -228.24 303.20 -850.08 -2.82 | F:μσmM 106.8 20.5 60.0 118.0 | H 9.972 | V -7.210 | pL 34.201 | vL 4856.532 | ∇ 15.039
+U 14 | F 011200 | FPS 0057 | D 183 | rR:μσmM -144.20 199.03 -646.37 -29.76 | F:μσmM 106.9 19.3 72.0 118.0 | H 9.954 | V -7.378 | pL 42.087 | vL 4514.913 | ∇ 17.478
+U 15 | F 012000 | FPS 0058 | D 197 | rR:μσmM -350.22 332.44 -851.38 -45.06 | F:μσmM 92.9 27.2 43.0 118.0 | H 9.847 | V -7.498 | pL 38.138 | vL 10824.755 | ∇ 46.653
+U 16 | F 012800 | FPS 0052 | D 212 | rR:μσmM -69.44 100.77 -308.45 37.61 | F:μσmM 105.4 30.8 24.0 118.0 | H 9.889 | V -7.646 | pL 20.039 | vL 1096.084 | ∇ 26.949
+U 17 | F 013600 | FPS 0054 | D 227 | rR:μσmM -253.98 263.38 -751.89 -48.65 | F:μσmM 112.6 7.6 100.0 118.0 | H 9.966 | V -7.682 | pL 62.360 | vL 9717.717 | ∇ 25.317
+U 18 | F 014400 | FPS 0056 | D 242 | rR:μσmM -136.61 278.50 -863.38 40.85 | F:μσmM 114.6 6.0 102.0 118.0 | H 9.814 | V -7.819 | pL 25.140 | vL 7024.875 | ∇ 37.228
+U 19 | F 015200 | FPS 0056 | D 256 | rR:μσmM -77.02 165.12 -509.02 27.63 | F:μσmM 112.2 15.2 72.0 118.0 | H 9.916 | V -7.840 | pL 26.508 | vL 2823.367 | ∇ 14.191
+U 20 | F 016000 | FPS 0056 | D 270 | rR:μσmM -84.27 125.62 -413.44 -2.85 | F:μσmM 108.0 26.5 38.0 118.0 | H 9.946 | V -7.931 | pL 17.713 | vL 1791.982 | ∇ 32.547
+Model successfully saved
+U 21 | F 016800 | FPS 0057 | D 284 | rR:μσmM -125.22 155.84 -506.48 -27.06 | F:μσmM 102.8 27.3 43.0 118.0 | H 9.916 | V -8.177 | pL 27.445 | vL 2653.283 | ∇ 61.932

@@ -3,8 +3,8 @@ import torch
 from torch_rl.format import default_preprocess_obss
 from torch_rl.utils import DictList
 
-from utils.penv_chunks import ParallelEnvChunks
-
+# from utils.penv_chunks import ParallelEnvChunks
+from torch_rl.utils.penv import ParallelEnv
 
 class BaseAlgoV0(ABC):
     """The base class for RL algorithms."""
@@ -47,7 +47,8 @@ class BaseAlgoV0(ABC):
 
         # Store parameters
 
-        self.env = ParallelEnvChunks(envs)
+        # self.env = ParallelEnvChunks(envs)
+        self.env = ParallelEnv(envs)
         self.acmodel = acmodel
         self.acmodel.train()
         self.num_frames_per_proc = num_frames_per_proc
