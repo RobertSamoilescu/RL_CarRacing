@@ -360,3 +360,49 @@ ACModel(
 CUDA available: True
 
 U 1 | F 000128 | FPS 0033 | D 3 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 10.252 | V -0.372 | pL -2.820 | vL 5.658 | ∇ 11.901
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacing --save-interval 10 --procs 1 --tb --recurrence 64
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, mem=True, model='CarRacing', optim_alpha=0.99, optim_eps=1e-05, procs=1, recurrence=64, save_interval=10, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully created
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (memory_rnn): GRUCell(5184, 1024)
+  (actor): Sequential(
+    (0): Linear(in_features=1024, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=1024, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000128 | FPS 0032 | D 4 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 10.252 | V -0.372 | pL -2.820 | vL 5.658 | ∇ 11.884
+U 2 | F 000256 | FPS 0032 | D 8 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 9.958 | V 0.494 | pL -4.464 | vL 6.839 | ∇ 20.248
+U 3 | F 000384 | FPS 0033 | D 11 | rR:μσmM 0.00 0.00 0.00 0.00 | F:μσmM 0.0 0.0 0 0 | H 10.134 | V -1.249 | pL 2.082 | vL 2.535 | ∇ 3.152
+U 4 | F 000512 | FPS 0031 | D 16 | rR:μσmM -101.02 0.00 -101.02 -101.02 | F:μσmM 446.0 0.0 446.0 446.0 | H 8.997 | V 0.642 | pL 34.320 | vL 1379.965 | ∇ 37.530
+U 5 | F 000640 | FPS 0033 | D 19 | rR:μσmM -101.02 0.00 -101.02 -101.02 | F:μσmM 446.0 0.0 446.0 446.0 | H 10.500 | V -0.437 | pL 3.132 | vL 1.935 | ∇ 5.492
+U 6 | F 000768 | FPS 0033 | D 23 | rR:μσmM -101.02 0.00 -101.02 -101.02 | F:μσmM 446.0 0.0 446.0 446.0 | H 9.560 | V -3.035 | pL 2.262 | vL 2.409 | ∇ 1.035
+U 7 | F 000896 | FPS 0033 | D 27 | rR:μσmM -101.02 0.00 -101.02 -101.02 | F:μσmM 446.0 0.0 446.0 446.0 | H 10.459 | V -1.909 | pL 2.725 | vL 1.545 | ∇ 1.117
+U 8 | F 001024 | FPS 0033 | D 31 | rR:μσmM -101.02 0.00 -101.02 -101.02 | F:μσmM 446.0 0.0 446.0 446.0 | H 10.197 | V -3.254 | pL 1.725 | vL 0.767 | ∇ 2.757
+U 9 | F 001152 | FPS 0031 | D 35 | rR:μσmM -144.94 0.00 -144.94 -144.94 | F:μσmM 667.0 0.0 667.0 667.0 | H 7.911 | V 1.653 | pL 44.952 | vL 1470.487 | ∇ 64.221
+U 10 | F 001280 | FPS 0033 | D 39 | rR:μσmM -144.94 0.00 -144.94 -144.94 | F:μσmM 667.0 0.0 667.0 667.0 | H 8.474 | V -1.265 | pL 0.553 | vL 1.253 | ∇ 5.097
+Model successfully saved
