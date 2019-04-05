@@ -76,11 +76,8 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # Define actor's model
         if isinstance(action_space, gym.spaces.Discrete):
             self.actor = nn.Sequential(
-<<<<<<< HEAD
                 nn.Linear(self.embedding_size, 1024),
-=======
                 nn.Linear(self.image_embedding_size, 1024),
->>>>>>> 115ec0ef91ae805c2ffcaa5e9433883ad137cbd4
                 nn.Tanh(),
                 nn.Linear(1024, action_space.n)
             )
