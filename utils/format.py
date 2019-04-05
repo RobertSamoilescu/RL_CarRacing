@@ -35,9 +35,10 @@ def get_obss_preprocessor(env_id, obs_space, model_dir):
 
     return obs_space, preprocess_obss
 
-def preprocess_images(images, device=None):
+def preprocess_images(images, mean_value=128., device=None):
     # Bug of Pytorch: very slow if not first converted to numpy array
     images = numpy.array(images)
+    images = (images - mean_value) / mean_value
     return torch.tensor(images, device=device, dtype=torch.float)
 
 def preprocess_texts(texts, vocab, device=None):
