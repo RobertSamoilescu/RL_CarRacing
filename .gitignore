@@ -1,10 +1,6 @@
 .idea/
 .liftoff_cfg.yaml
 results/
-configs/*
-!configs/**/config*
-!configs/**/default*
-configs/default.yaml
 local/
 
 *__pycache__

@@ -19,7 +19,7 @@ class CarRacingWrapper(Wrapper):
         self.counter = 0
         self.no_stacked_frames = no_stacked_frames
 
-    def step(self, action, num_frames=4):
+    def step(self, action):
         # steer and acceleration conversion
         steer = (2. * action[0] - CarRacingWrapper.STEER_SPACE) / CarRacingWrapper.STEER_SPACE
         acc = (2 * action[1] - CarRacingWrapper.ACC_SPACE) / CarRacingWrapper.ACC_SPACE
@@ -44,8 +44,8 @@ class CarRacingWrapper(Wrapper):
                 break
 
         # check if enough observations
-        if len(observations) < num_frames:
-            observations = observations + [observations[-1]] * (num_frames - len(observations))
+        if len(observations) < self.no_stacked_frames:
+            observations = observations + [observations[-1]] * (self.no_stacked_frames - len(observations))
 
         observations = np.stack(observations, axis=2).transpose(2, 0, 1)
         return observations, total_reward, done, info
