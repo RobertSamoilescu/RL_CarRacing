@@ -38,15 +38,17 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # )
 
         kernel_size = 5; stride = 2
+        no_last_filters = 32
+        no_input_channels = 1
         self.image_conv = nn.Sequential(
-                nn.Conv2d(1, 16, kernel_size=kernel_size, stride=stride),
+                nn.Conv2d(no_input_channels, 16, kernel_size=kernel_size, stride=stride),
                 nn.BatchNorm2d(16),
                 nn.ReLU(),
                 nn.Conv2d(16, 32, kernel_size=kernel_size, stride=stride),
                 nn.BatchNorm2d(32),
                 nn.ReLU(),
-                nn.Conv2d(32, 64, kernel_size=kernel_size, stride=stride),
-                nn.BatchNorm2d(64),
+                nn.Conv2d(32, no_last_filters, kernel_size=kernel_size, stride=stride),
+                nn.BatchNorm2d(no_last_filters),
                 nn.ReLU()
         )
 
@@ -60,8 +62,6 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         for _ in range(no_conv_layers):
             n = get_output_size(n, kernel_size, stride)
             m = get_output_size(m, kernel_size, stride)
-        
-        no_last_filters = 64
         self.image_embedding_size = n * m * no_last_filters
 
         # Define memory
@@ -85,9 +85,9 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
 
         # Define critic's model
         self.critic = nn.Sequential(
-            nn.Linear(self.image_embedding_size, 64),
+            nn.Linear(self.image_embedding_size, 1024),
             nn.Tanh(),
-            nn.Linear(64, 1)
+            nn.Linear(1024, 1)
         )
 
         # Initialize parameters correctly
