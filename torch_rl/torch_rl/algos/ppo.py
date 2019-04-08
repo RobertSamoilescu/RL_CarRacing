@@ -23,8 +23,8 @@ class PPOAlgo(BaseAlgo):
 
         assert self.batch_size % self.recurrence == 0
 
-        # self.optimizer = torch.optim.Adam(self.acmodel.parameters(), lr, eps=adam_eps)
-        self.optimizer = torch.optim.RMSprop(self.acmodel.parameters(), lr)
+        self.optimizer = torch.optim.Adam(self.acmodel.parameters(), lr, eps=adam_eps)
+        # self.optimizer = torch.optim.RMSprop(self.acmodel.parameters(), lr)
         self.batch_num = 0
 
     def update_parameters(self):

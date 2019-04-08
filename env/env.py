@@ -1,7 +1,7 @@
 from gym import Wrapper
 import numpy as np
 import env.bev as bev
-
+# import bev
 import gym
 
 
@@ -12,7 +12,7 @@ class CarRacingWrapper(Wrapper):
     STEER_SPACE = 180
     ACC_SPACE = 200
 
-    def __init__(self, env, no_stacked_frames=1, max_steps=1024):
+    def __init__(self, env, no_stacked_frames=4, max_steps=1024):
         super(CarRacingWrapper, self).__init__(env)
         self.action_space = gym.spaces.Discrete(CarRacingWrapper.STEER_SPACE + CarRacingWrapper.ACC_SPACE + 2)
         self.max_steps = max_steps
@@ -90,11 +90,13 @@ if __name__ == "__main__":
         steer = np.exp(steer)
         steer = steer / steer.sum()
         steer = steer.argmax()
+        steer = 90
 
         acc = np.random.rand(CarRacingWrapper.ACC_SPACE + 1)
         acc = np.exp(acc)
         acc = acc / acc.sum()
         acc = acc.argmax()
+        acc = 120
 
         observation, reward, done, info = env.step((steer, acc))
         print("reward: ",  reward)

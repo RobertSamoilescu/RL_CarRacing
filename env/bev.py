@@ -73,9 +73,14 @@ def from_bird_view(screen):
 
     # segmentation
     R, G, B = screen[:, :, 0], screen[:, :, 1], screen[:, :, 2]
-    grass = (G > 150).astype(np.uint8)
-    grass = cv2.morphologyEx(grass, cv2.MORPH_CLOSE, np.ones((5, 5)))
-    road = 255 * (1 - grass)
+    # grass = (G > 150).astype(np.uint8)
+    # grass = cv2.morphologyEx(grass, cv2.MORPH_CLOSE, np.ones((5, 5)))
+    # road = 255 * (1 - grass)
+    road = ((0.35 < R/255.) * (R/255.< 0.45) * (0.35 < G/255.) * (G/255. < 0.45) * (0.35 < B/255.0) *(B/255.0 < 0.45)).astype(np.uint8)
+    road = 255 * road
+
+    # apply close
+    road = cv2.morphologyEx(road, cv2.MORPH_CLOSE, np.ones((5,5)))
 
     # change perspective
     w, h, _ = screen.shape

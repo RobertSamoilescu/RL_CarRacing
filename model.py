@@ -22,32 +22,34 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
 
         # Decide which components are enabled
         self.use_memory = use_memory
-        self._memory_size = memory_size = 1024
+        self._memory_size = memory_size = 512
         self.memory_type = "GRU"
 
         # Define image embedding
-        # kernel_size = 5; stride = 1
+        # kernel_size = [2, 2, 2]; stride = [1, 1, 1]
+        # no_last_filters = 64
+        # no_input_channels = 4
         # self.image_conv = nn.Sequential(
-        #     nn.Conv2d(4, 16, (2, 2)),
+        #     nn.Conv2d(no_input_channels, 16, (2, 2)),
         #     nn.ReLU(),
         #     nn.MaxPool2d((2, 2)),
         #     nn.Conv2d(16, 32, (2, 2)),
         #     nn.ReLU(),
-        #     nn.Conv2d(32, 64, (2, 2)),
+        #     nn.Conv2d(32, no_last_filters, (2, 2)),
         #     nn.ReLU()
         # )
 
-        kernel_size = 5; stride = 2
+        kernel_size = [5, 5, 5]; stride = [2, 2, 2]
         no_last_filters = 32
-        no_input_channels = 1
+        no_input_channels = 4
         self.image_conv = nn.Sequential(
-                nn.Conv2d(no_input_channels, 16, kernel_size=kernel_size, stride=stride),
+                nn.Conv2d(no_input_channels, 16, kernel_size=kernel_size[0], stride=stride[0]),
                 nn.BatchNorm2d(16),
                 nn.ReLU(),
-                nn.Conv2d(16, 32, kernel_size=kernel_size, stride=stride),
+                nn.Conv2d(16, 32, kernel_size=kernel_size[1], stride=stride[1]),
                 nn.BatchNorm2d(32),
                 nn.ReLU(),
-                nn.Conv2d(32, no_last_filters, kernel_size=kernel_size, stride=stride),
+                nn.Conv2d(32, no_last_filters, kernel_size=kernel_size[2], stride=stride[2]),
                 nn.BatchNorm2d(no_last_filters),
                 nn.ReLU()
         )
@@ -59,10 +61,11 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
             return (I - K + 2 * P) // S + 1
 
         no_conv_layers = 3
-        for _ in range(no_conv_layers):
-            n = get_output_size(n, kernel_size, stride)
-            m = get_output_size(m, kernel_size, stride)
+        for i in range(no_conv_layers):
+            n = get_output_size(n, kernel_size[i], stride[i])
+            m = get_output_size(m, kernel_size[i], stride[i])
         self.image_embedding_size = n * m * no_last_filters
+        # self.image_embedding_size = ((n-1)//2-2)*((m-1)//2-2)*64
 
         # Define memory
         if self.use_memory:
@@ -76,18 +79,18 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # Define actor's model
         if isinstance(action_space, gym.spaces.Discrete):
             self.actor = nn.Sequential(
-                nn.Linear(self.image_embedding_size, 1024),
+                nn.Linear(self.image_embedding_size, 512),
                 nn.Tanh(),
-                nn.Linear(1024, action_space.n)
+                nn.Linear(512, action_space.n)
             )
         else:
             raise ValueError("Unknown action space: " + str(action_space))
 
         # Define critic's model
         self.critic = nn.Sequential(
-            nn.Linear(self.image_embedding_size, 1024),
+            nn.Linear(self.image_embedding_size, 64),
             nn.Tanh(),
-            nn.Linear(1024, 1)
+            nn.Linear(64, 1)
         )
 
         # Initialize parameters correctly
