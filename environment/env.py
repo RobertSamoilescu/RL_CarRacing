@@ -91,11 +91,13 @@ if __name__ == "__main__":
         steer = np.exp(steer)
         steer = steer / steer.sum()
         steer = steer.argmax()
+        steer = 90
 
         acc = np.random.rand(CarRacingWrapper.ACC_SPACE + 1)
         acc = np.exp(acc)
         acc = acc / acc.sum()
         acc = acc.argmax()
+        acc = 110
 
         observation, reward, done, info = env.step((steer, acc))
         print("reward: ",  reward)

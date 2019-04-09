@@ -23,6 +23,7 @@ class ModelV0(nn.Module, torch_rl.RecurrentACModel):
 
         # Define image embedding
         kernel_size = 5; stride = 2
+        no_last_filters = 32
         self.image_conv = nn.Sequential(
                 nn.Conv2d(no_stacked_frames, 16, kernel_size=kernel_size, stride=stride),
                 nn.BatchNorm2d(16),
@@ -30,8 +31,8 @@ class ModelV0(nn.Module, torch_rl.RecurrentACModel):
                 nn.Conv2d(16, 32, kernel_size=kernel_size, stride=stride),
                 nn.BatchNorm2d(32),
                 nn.ReLU(),
-                nn.Conv2d(32, 64, kernel_size=kernel_size, stride=stride),
-                nn.BatchNorm2d(64),
+                nn.Conv2d(32, no_last_filters, kernel_size=kernel_size, stride=stride),
+                nn.BatchNorm2d(no_last_filters),
                 nn.ReLU()
         )
 
@@ -46,7 +47,7 @@ class ModelV0(nn.Module, torch_rl.RecurrentACModel):
             n = get_output_size(n, kernel_size, stride)
             m = get_output_size(m, kernel_size, stride)
         
-        no_last_filters = 64
+
         self.image_embedding_size = n * m * no_last_filters
         crt_size = self.image_embedding_size
 
@@ -62,18 +63,18 @@ class ModelV0(nn.Module, torch_rl.RecurrentACModel):
         # Define actor's model
         if isinstance(action_space, gym.spaces.Discrete):
             self.actor = nn.Sequential(
-                nn.Linear(crt_size, 64),
+                nn.Linear(crt_size, 1024),
                 nn.Tanh(),
-                nn.Linear(64, action_space.n)
+                nn.Linear(1024, action_space.n)
             )
         else:
             raise ValueError("Unknown action space: " + str(action_space))
 
         # Define critic's model
         self.critic = nn.Sequential(
-            nn.Linear(crt_size, 64),
+            nn.Linear(crt_size, 1024),
             nn.Tanh(),
-            nn.Linear(64, 1)
+            nn.Linear(1024, 1)
         )
 
         # Initialize parameters correctly

@@ -1,0 +1,143 @@
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacing', model_dir='results_dir/CarRacing', procs=8, save_all=False, save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 32, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=2592, out_features=256, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=256, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=2592, out_features=256, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacing', model_dir='results_dir/CarRacing', procs=8, save_all=False, save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+Model [ModelV0] successfully created
+
+ModelV0(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 32, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=2592, out_features=256, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=256, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=2592, out_features=256, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 1 | F 000800 | FPS 0134 | D 5 | rR:μσmM -48.69 128.82 -389.53 0.00 | F:μσmM 7.4 19.5 0.0 59.0 | H 10.290 | V -0.567 | pL 17.387 | vL 1437.415 | ∇ 25.998
+U 2 | F 001600 | FPS 0124 | D 12 | rR:μσmM -253.45 158.40 -440.02 0.00 | F:μσmM 85.2 59.3 0.0 159.0 | H 10.145 | V -2.505 | pL 50.879 | vL 4866.090 | ∇ 51.187
+U 3 | F 002400 | FPS 0120 | D 19 | rR:μσmM -146.80 126.49 -440.02 -50.65 | F:μσmM 167.1 72.7 67.0 235.0 | H 9.915 | V -4.250 | pL 11.289 | vL 475.822 | ∇ 20.873
+U 4 | F 003200 | FPS 0118 | D 25 | rR:μσmM -190.71 139.05 -381.73 -27.59 | F:μσmM 151.6 68.3 67.0 235.0 | H 9.525 | V -6.134 | pL 43.246 | vL 4341.718 | ∇ 33.668
+U 5 | F 004000 | FPS 0121 | D 32 | rR:μσmM -256.55 118.70 -401.54 -27.59 | F:μσmM 140.8 57.2 63.0 235.0 | H 9.431 | V -9.981 | pL 37.329 | vL 3163.177 | ∇ 121.899
+U 6 | F 004800 | FPS 0120 | D 39 | rR:μσmM -202.42 165.63 -431.08 55.35 | F:μσmM 162.8 66.1 63.0 235.0 | H 9.516 | V -10.609 | pL 17.584 | vL 2067.240 | ∇ 73.591
+U 7 | F 005600 | FPS 0138 | D 44 | rR:μσmM -127.74 139.20 -431.08 55.35 | F:μσmM 174.6 65.8 57.0 235.0 | H 9.889 | V -13.124 | pL 18.574 | vL 484.162 | ∇ 132.523
+U 8 | F 006400 | FPS 0119 | D 51 | rR:μσmM -134.06 114.98 -339.36 -17.33 | F:μσmM 182.6 61.9 57.0 235.0 | H 9.710 | V -16.460 | pL 13.215 | vL 1388.971 | ∇ 299.745
+U 9 | F 007200 | FPS 0136 | D 57 | rR:μσmM -148.35 126.47 -339.36 -17.33 | F:μσmM 177.2 66.1 57.0 235.0 | H 9.996 | V -13.476 | pL 9.873 | vL 1112.713 | ∇ 168.592
+U 10 | F 008000 | FPS 0114 | D 64 | rR:μσmM -176.32 193.05 -452.89 122.22 | F:μσmM 204.2 42.1 109.0 235.0 | H 10.001 | V -15.910 | pL 27.920 | vL 3809.005 | ∇ 132.380
+Model successfully saved
+U 11 | F 008800 | FPS 0146 | D 70 | rR:μσmM -198.73 162.93 -452.89 -47.18 | F:μσmM 205.4 39.6 118.0 235.0 | H 10.229 | V -17.917 | pL 14.032 | vL 1491.339 | ∇ 51.720
+U 12 | F 009600 | FPS 0121 | D 76 | rR:μσmM -88.83 97.30 -307.68 12.16 | F:μσmM 202.4 56.9 91.0 235.0 | H 10.100 | V -17.625 | pL 3.806 | vL 474.644 | ∇ 179.039
+U 13 | F 010400 | FPS 0140 | D 82 | rR:μσmM -103.95 132.98 -428.62 12.16 | F:μσmM 203.2 55.6 91.0 235.0 | H 10.034 | V -18.151 | pL 11.174 | vL 1496.258 | ∇ 151.559
+U 14 | F 011200 | FPS 0123 | D 88 | rR:μσmM -99.58 125.89 -428.62 -18.86 | F:μσmM 221.2 36.4 125.0 235.0 | H 10.131 | V -18.767 | pL 5.759 | vL 100.485 | ∇ 59.461
+U 15 | F 012000 | FPS 0116 | D 95 | rR:μσmM -87.84 90.20 -303.35 11.66 | F:μσmM 196.0 69.4 47.0 235.0 | H 9.957 | V -23.328 | pL 5.423 | vL 779.518 | ∇ 92.536
+U 16 | F 012800 | FPS 0148 | D 101 | rR:μσmM -126.13 147.11 -427.10 11.66 | F:μσmM 186.8 68.5 47.0 235.0 | H 10.156 | V -19.788 | pL 15.476 | vL 1295.090 | ∇ 117.067
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+train_main.py
+
+Namespace(algo='ppo', env='CarRacing-v0', eval_interval=0, frames=10000000.0, log_interval=1, max_eprews=0, model='CarRacing', model_dir='results_dir/CarRacing', procs=8, save_all=False, save_best=True, save_interval=10, seed=1, tb=True)
+
+Training data exists & loaded successfully
+
+CUDA available: True
+
+U 11 | F 009024 | FPS 0130 | D 7 | rR:μσmM -92.41 124.63 -327.56 0.00 | F:μσmM 37.8 52.0 0.0 124.0 | H 9.967 | V -19.683 | pL 20.173 | vL 1311.523 | ∇ 41.861
+U 12 | F 010048 | FPS 0137 | D 15 | rR:μσmM -205.35 98.37 -334.41 -50.52 | F:μσmM 153.5 55.3 59.0 235.0 | H 9.935 | V -20.319 | pL 16.643 | vL 1167.492 | ∇ 213.359
+U 13 | F 011072 | FPS 0134 | D 23 | rR:μσmM -151.23 117.62 -334.41 -50.52 | F:μσmM 202.6 42.4 133.0 235.0 | H 10.085 | V -17.175 | pL 3.007 | vL 711.360 | ∇ 444.688
+U 14 | F 012096 | FPS 0124 | D 31 | rR:μσmM -69.61 105.40 -330.08 27.67 | F:μσmM 203.1 59.7 62.0 235.0 | H 9.949 | V -21.149 | pL 8.158 | vL 796.561 | ∇ 117.080
+U 15 | F 013120 | FPS 0121 | D 39 | rR:μσmM -171.06 136.29 -428.72 -22.80 | F:μσmM 184.1 53.0 98.0 235.0 | H 9.759 | V -26.116 | pL 21.750 | vL 1862.069 | ∇ 320.752
+U 16 | F 014144 | FPS 0129 | D 47 | rR:μσmM -239.73 185.32 -460.68 -16.08 | F:μσmM 183.4 50.6 98.0 235.0 | H 9.531 | V -30.391 | pL 32.824 | vL 3098.267 | ∇ 287.783
+U 17 | F 015168 | FPS 0135 | D 55 | rR:μσmM -222.10 172.69 -460.68 -28.85 | F:μσmM 198.2 44.5 126.0 235.0 | H 9.196 | V -30.653 | pL 6.064 | vL 750.904 | ∇ 87.641
+U 18 | F 016192 | FPS 0130 | D 63 | rR:μσmM -107.18 91.00 -327.45 -36.57 | F:μσmM 195.5 62.3 60.0 235.0 | H 9.152 | V -28.976 | pL -4.197 | vL 159.128 | ∇ 74.133
+U 19 | F 017216 | FPS 0125 | D 71 | rR:μσmM -68.84 39.42 -159.82 -36.03 | F:μσmM 224.5 18.9 183.0 235.0 | H 9.262 | V -27.380 | pL 0.165 | vL 148.324 | ∇ 47.830
+U 20 | F 018240 | FPS 0130 | D 79 | rR:μσmM -54.80 22.17 -96.18 -19.81 | F:μσmM 228.5 17.2 183.0 235.0 | H 8.791 | V -28.029 | pL -3.065 | vL 77.211 | ∇ 51.886
+Model successfully saved
+U 21 | F 019264 | FPS 0131 | D 86 | rR:μσmM -41.68 20.63 -68.36 -19.81 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.404 | V -25.462 | pL -7.734 | vL 137.078 | ∇ 45.892
+U 22 | F 020288 | FPS 0144 | D 94 | rR:μσmM -35.09 26.93 -63.80 22.98 | F:μσmM 235.0 0.0 235.0 235.0 | H 9.126 | V -23.491 | pL -0.842 | vL 113.953 | ∇ 51.913
+U 23 | F 021312 | FPS 0129 | D 102 | rR:μσmM -94.72 121.68 -407.87 22.98 | F:μσmM 222.9 32.1 138.0 235.0 | H 8.551 | V -29.149 | pL 6.412 | vL 1116.771 | ∇ 99.893
+U 24 | F 022336 | FPS 0137 | D 109 | rR:μσmM -58.71 11.53 -71.10 -29.90 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.869 | V -27.857 | pL 0.996 | vL 94.659 | ∇ 51.102
+U 25 | F 023360 | FPS 0126 | D 117 | rR:μσmM -62.72 15.19 -83.47 -29.90 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.822 | V -28.212 | pL -2.531 | vL 99.139 | ∇ 31.809
+U 26 | F 024384 | FPS 0134 | D 125 | rR:μσmM -60.82 22.34 -83.47 -8.09 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.845 | V -27.641 | pL -2.825 | vL 93.001 | ∇ 40.156
+U 27 | F 025408 | FPS 0130 | D 133 | rR:μσmM -49.89 23.70 -75.60 -8.09 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.489 | V -25.177 | pL -6.274 | vL 100.013 | ∇ 58.898
+U 28 | F 026432 | FPS 0129 | D 141 | rR:μσmM -86.71 126.07 -418.46 -23.37 | F:μσmM 226.2 23.2 165.0 235.0 | H 9.027 | V -22.037 | pL 13.832 | vL 1259.602 | ∇ 83.270
+U 29 | F 027456 | FPS 0127 | D 149 | rR:μσmM -91.22 124.47 -418.46 -23.37 | F:μσmM 226.2 23.2 165.0 235.0 | H 8.649 | V -21.829 | pL -1.768 | vL 85.194 | ∇ 54.807
+U 30 | F 028480 | FPS 0114 | D 158 | rR:μσmM -142.76 138.01 -431.13 -36.86 | F:μσmM 229.0 10.5 208.0 235.0 | H 8.869 | V -25.779 | pL 14.292 | vL 1750.744 | ∇ 129.218
+Model successfully saved
+U 31 | F 029504 | FPS 0122 | D 166 | rR:μσmM -96.19 87.16 -320.66 -15.15 | F:μσmM 232.4 6.9 214.0 235.0 | H 8.567 | V -26.083 | pL -2.566 | vL 100.687 | ∇ 58.560
+U 32 | F 030528 | FPS 0125 | D 174 | rR:μσmM -58.99 26.49 -82.02 -13.03 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.780 | V -23.958 | pL -3.070 | vL 71.246 | ∇ 38.504
+U 33 | F 031552 | FPS 0118 | D 183 | rR:μσmM -51.87 22.99 -82.02 -13.03 | F:μσmM 235.0 0.0 235.0 235.0 | H 9.045 | V -21.626 | pL -2.722 | vL 131.306 | ∇ 30.316
+U 34 | F 032576 | FPS 0124 | D 191 | rR:μσmM -36.08 32.37 -61.95 39.55 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.718 | V -23.476 | pL 0.705 | vL 71.828 | ∇ 51.128
+U 35 | F 033600 | FPS 0120 | D 200 | rR:μσmM -49.54 37.32 -81.42 39.55 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.730 | V -23.050 | pL -5.753 | vL 77.261 | ∇ 56.535
+U 36 | F 034624 | FPS 0123 | D 208 | rR:μσmM -65.32 15.15 -81.42 -35.61 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.847 | V -22.329 | pL -0.444 | vL 89.408 | ∇ 61.112
+U 37 | F 035648 | FPS 0119 | D 217 | rR:μσmM -57.26 15.15 -79.51 -35.61 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.433 | V -22.680 | pL 0.566 | vL 42.627 | ∇ 61.456
+U 38 | F 036672 | FPS 0118 | D 225 | rR:μσmM -51.35 15.78 -74.20 -25.37 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.076 | V -23.506 | pL -0.089 | vL 115.536 | ∇ 26.200
+U 39 | F 037696 | FPS 0090 | D 237 | rR:μσmM -52.68 24.48 -77.33 3.56 | F:μσmM 235.0 0.0 235.0 235.0 | H 7.896 | V -23.935 | pL -0.034 | vL 70.054 | ∇ 63.367
+U 40 | F 038720 | FPS 0093 | D 248 | rR:μσmM -58.95 25.83 -81.71 3.56 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.092 | V -24.576 | pL -1.743 | vL 52.909 | ∇ 38.800
+Model successfully saved
+U 41 | F 039744 | FPS 0093 | D 259 | rR:μσmM -78.89 58.00 -229.11 -40.84 | F:μσmM 231.6 8.9 208.0 235.0 | H 8.446 | V -24.842 | pL 3.570 | vL 369.356 | ∇ 66.802
+U 42 | F 040768 | FPS 0093 | D 270 | rR:μσmM -83.25 55.89 -229.11 -40.84 | F:μσmM 231.6 8.9 208.0 235.0 | H 7.669 | V -23.665 | pL 1.280 | vL 47.776 | ∇ 33.407
+U 43 | F 041792 | FPS 0102 | D 280 | rR:μσmM -63.48 9.33 -77.55 -44.00 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.002 | V -24.526 | pL -2.154 | vL 83.563 | ∇ 44.776
+U 44 | F 042816 | FPS 0113 | D 289 | rR:μσmM -57.77 13.76 -76.76 -37.93 | F:μσmM 235.0 0.0 235.0 235.0 | H 8.121 | V -23.829 | pL 1.918 | vL 63.448 | ∇ 38.762
+U 45 | F 043840 | FPS 0115 | D 298 | rR:μσmM -53.45 14.16 -76.76 -37.93 | F:μσmM 235.0 0.0 235.0 235.0 | H 7.670 | V -22.997 | pL -4.160 | vL 66.714 | ∇ 27.626
+U 46 | F 044864 | FPS 0110 | D 307 | rR:μσmM -54.07 14.51 -73.31 -28.72 | F:μσmM 235.0 0.0 235.0 235.0 | H 7.613 | V -23.727 | pL -1.009 | vL 57.906 | ∇ 54.254
+U 47 | F 045888 | FPS 0120 | D 316 | rR:μσmM -62.05 14.43 -81.54 -28.72 | F:μσmM 235.0 0.0 235.0 235.0 | H 7.488 | V -24.131 | pL -8.237 | vL 121.106 | ∇ 90.248
+U 48 | F 046912 | FPS 0119 | D 324 | rR:μσmM -69.13 41.54 -160.32 -15.43 | F:μσmM 232.5 6.6 215.0 235.0 | H 7.903 | V -24.251 | pL 3.565 | vL 323.204 | ∇ 41.960
+U 49 | F 047936 | FPS 0109 | D 334 | rR:μσmM -122.52 142.18 -435.01 -22.57 | F:μσmM 206.5 56.0 68.0 235.0 | H 8.219 | V -26.484 | pL 19.023 | vL 1950.575 | ∇ 172.110
+U 50 | F 048960 | FPS 0115 | D 343 | rR:μσmM -126.91 140.29 -435.01 -19.57 | F:μσmM 206.5 56.0 68.0 235.0 | H 7.435 | V -24.180 | pL 0.465 | vL 53.942 | ∇ 21.527
+Model successfully saved

@@ -1,0 +1,35 @@
+Generating grammar tables from /usr/lib/python3.6/lib2to3/Grammar.txt
+Generating grammar tables from /usr/lib/python3.6/lib2to3/PatternGrammar.txt
+/home/robert/PycharmProjects/RL_cercetare/torch-rl/scripts/train.py --algo ppo --model CarRacingDQNStacked4.1 --save-interval 5 --procs 12 --tb
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, entropy_coef=0.01, epochs=4, frames=10000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, mem=False, model='CarRacingDQNStacked4.1', optim_alpha=0.99, optim_eps=1e-05, procs=12, recurrence=1, save_interval=5, seed=1, tb=True, value_loss_coef=0.5)
+
+Model successfully loaded
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(4, 16, kernel_size=(5, 5), stride=(2, 2))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(16, 32, kernel_size=(5, 5), stride=(2, 2))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv2d(32, 64, kernel_size=(5, 5), stride=(2, 2))
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=5184, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=382, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=5184, out_features=1024, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=1024, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+Track generation: 1055..1332 -> 277-tiles track
