@@ -9,20 +9,30 @@ class CarRacingWrapper(Wrapper):
     # constant number of frames & action
     NUM_FRAMES = 60
     ACTION = np.array([0., 0., 0.])
-    STEER_SPACE = 180
-    ACC_SPACE = 200
 
-    def __init__(self, env, no_stacked_frames=4, max_steps=1024):
+    # action spaces
+    STEER_SPACE = 90
+    ACC_SPACE = 100
+
+    # domain randomization
+    MEAN_X, OFFSET_X = 0, 50 # addition negative or positive, camera ox
+    MEAN_Y, OFFSET_Y = 0, 50 # addition negative or positive, camera oy
+    MEAN_Z, OFFSET_Z = 25, 5 # addition negative or positive, camera oz
+    MEAN_TW, OFFSET_TW = 1, 1 # multiplication or division, track width
+    MEAN_TR, OFFSET_TR = 1, 1 # multipication or division, turn rate
+
+
+    def __init__(self, env, no_stacked_frames=4, max_steps=1024, no_levels=10, no_steps_per_level=1):
         super(CarRacingWrapper, self).__init__(env)
-        self.action_space = gym.spaces.Discrete(CarRacingWrapper.STEER_SPACE + CarRacingWrapper.ACC_SPACE + 2)
+        self.action_space = gym.spaces.Discrete(2 * CarRacingWrapper.STEER_SPACE + 2 * CarRacingWrapper.ACC_SPACE + 2)
         self.max_steps = max_steps
         self.counter = 0
         self.no_stacked_frames = no_stacked_frames
 
     def step(self, action):
         # steer and acceleration conversion
-        steer = (2. * action[0].item() - CarRacingWrapper.STEER_SPACE) / CarRacingWrapper.STEER_SPACE
-        acc = (2 * action[1].item() - CarRacingWrapper.ACC_SPACE) / CarRacingWrapper.ACC_SPACE
+        steer = (action[0].item() - (CarRacingWrapper.STEER_SPACE + 1)) / CarRacingWrapper.STEER_SPACE
+        acc = (action[1].item() - (CarRacingWrapper.ACC_SPACE + 1)) / CarRacingWrapper.ACC_SPACE
         action = np.array([steer, acc, 0]) if acc > 0 else np.array([steer, 0, acc])
 
         observations = []

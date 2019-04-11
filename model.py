@@ -22,7 +22,7 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
 
         # Decide which components are enabled
         self.use_memory = use_memory
-        self._memory_size = memory_size = 256
+        self._memory_size = memory_size = 512
         self.memory_type = "GRU"
 
         # Define image embedding
@@ -78,24 +78,19 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
 
         # Define actor's model
         if isinstance(action_space, gym.spaces.Discrete):
-            self.steer_actor = nn.Sequential(
-                nn.Linear(self.image_embedding_size, 256),
+            self.actor = nn.Sequential(
+                nn.Linear(self.image_embedding_size, 512),
                 nn.Tanh(),
-                nn.Linear(256, 181)
-            )
-            self.acc_actor = nn.Sequential(
-                nn.Linear(self.image_embedding_size, 256),
-                nn.Tanh(),
-                nn.Linear(256, 201)
+                nn.Linear(512, action_space.n)
             )
         else:
             raise ValueError("Unknown action space: " + str(action_space))
 
         # Define critic's model
         self.critic = nn.Sequential(
-            nn.Linear(self.image_embedding_size, 256),
+            nn.Linear(self.image_embedding_size, 64),
             nn.Tanh(),
-            nn.Linear(256, 1)
+            nn.Linear(64, 1)
         )
 
         # Initialize parameters correctly
@@ -127,11 +122,9 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         else:
             embedding = x
 
-        x = self.steer_actor(embedding)
-        steer_dist = Categorical(logits=F.log_softmax(x, dim=1))
-        
-        x = self.acc_actor(embedding)
-        acc_dist = Categorical(logits=F.log_softmax(x, dim=1))
+        x = self.actor(embedding)
+        steer_dist = Categorical(logits=F.log_softmax(x[:, :181], dim=1))
+        acc_dist = Categorical(logits=F.log_softmax(x[:, 181:], dim=1))
 
         x = self.critic(embedding)
         value = x.squeeze(1)
