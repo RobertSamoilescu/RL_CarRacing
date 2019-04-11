@@ -2,70 +2,71 @@ import cv2
 import numpy as np
 import math
 
-# camera matrix
-K = np.array([
-    [1173.122620, 0.000000, 969.335924, 0],
-    [0.000000, 1179.612539, 549.524382, 0],
-    [0.000000, 0.000000, 1.000000, 0]
-])
-S = np.array([
-    [96/1920.0, 0, 0],
-    [0, (96-25)/1088.0, 0],
-    [0, 0, 1]
-])
-K = np.matmul(S, K)
+def get_intrinsic_matrix(offset_x=0, offset_y=0, offset_z=25):
+    # camera matrix
+    K = np.array([
+        [1173.122620, 0.000000, 969.335924 + offset_x, 0],
+        [0.000000, 1179.612539, 549.524382 + offset_y, 0],
+        [0.000000, 0.000000, 1.000000, 0]
+    ])
+    S = np.array([
+        [96/1920.0, 0, 0],
+        [0, (96-offset_z)/1088.0, 0],
+        [0, 0, 1]
+    ])
+    K = np.matmul(S, K)
+    return K
 
-DISTANCE_FACTOR = 0.5
-M = np.array([
-    [1.0, 0.0, 0.0, 0.0],
-    [0.0, 1.0, 0.0, 0.0],
-    [0.0, 0.0, 1.0, K[0, 0] * DISTANCE_FACTOR],
-    [0.0, 0.0, 0.0, 1.0]
-])
 
-A = np.array([
-    [1, 0, -K[0, 2]],
-    [0, 1, -K[1, 2] - 10],
-    [0, 0, 0],
-    [0, 0, 1]
-])
+def get_transformation_matrix(K):
+    DISTANCE_FACTOR = 0.5
+    M = np.array([
+        [1.0, 0.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, K[0, 0] * DISTANCE_FACTOR],
+        [0.0, 0.0, 0.0, 1.0]
+    ])
 
-# rotation matrix
-eps = 0.2
-alpha = -math.pi/(2 + eps)
-Rx = np.array([
-    [1, 0, 0, 0],
-    [0, np.cos(alpha), -np.sin(alpha), 0],
-    [0, np.sin(alpha), np.cos(alpha), 0],
-    [0, 0, 0, 1]
-])
+    # translation matrix
+    OFFSET = 10
+    T = np.array([
+        [1, 0, -K[0, 2]],
+        [0, 1, -K[1, 2] - OFFSET],
+        [0, 0, 0],
+        [0, 0, 1]
+    ])
+
+    # rotation matrix
+    SLOPE_FACTOR = 0.2
+    alpha = -math.pi/(2 + SLOPE_FACTOR)
+    Rx = np.array([
+        [1, 0, 0, 0],
+        [0, np.cos(alpha), -np.sin(alpha), 0],
+        [0, np.sin(alpha), np.cos(alpha), 0],
+        [0, 0, 0, 1]
+    ])
+
+    # extrinsic matrix
+    M = np.matmul(M, np.matmul(Rx, T))
+    return M
 
 # homography matrix
-H = np.matmul(np.matmul(K, M), np.matmul(Rx, A))
-
-
-# remove small connected compontents
-def remove_small_cc(mask):
-    # connected components
-    nb_components, output, stats, centroids = cv2.connectedComponentsWithStats(mask, connectivity=8)
-    sizes = stats[1:, -1]
-    nb_components = nb_components - 1
-    min_size = 1500
-
-    # your answer image
-    for j in range(0, nb_components):
-        if sizes[j] <= min_size:
-            mask[output == j + 1] = 0
-    return mask
-
+def get_homography_matrix(offset_x=0., offset_y=0., offset_z=25):
+    K = get_intrinsic_matrix(offset_x=offset_x, offset_y=offset_y, offset_z=offset_z)
+    M = get_transformation_matrix(K=K)
+    H = np.matmul(K, M)
+    return H
 
 # change screen form bird eye view to camera on the car view
-def from_bird_view(screen):
+def from_bird_view(screen, offset_x=50, offset_y=0., offset_z=25):
     orig_w, orig_h, _ = screen.shape
+
+    # get homography matrix
+    H = get_homography_matrix(offset_x, offset_y, offset_z)
 
     # RGB to BGR and crop
     screen = screen[:, :, ::-1]
-    screen = screen[:-25, :, ::-1]
+    screen = screen[:-offset_z, :, ::-1]
 
     w, h, _ = screen.shape
     road2 = cv2.warpPerspective(screen, H, (h, w), flags=cv2.INTER_CUBIC)
@@ -73,9 +74,6 @@ def from_bird_view(screen):
 
     # segmentation
     R, G, B = screen[:, :, 0], screen[:, :, 1], screen[:, :, 2]
-    # grass = (G > 150).astype(np.uint8)
-    # grass = cv2.morphologyEx(grass, cv2.MORPH_CLOSE, np.ones((5, 5)))
-    # road = 255 * (1 - grass)
     road = ((0.35 < R/255.) * (R/255.< 0.45) * (0.35 < G/255.) * (G/255. < 0.45) * (0.35 < B/255.0) *(B/255.0 < 0.45)).astype(np.uint8)
     road = 255 * road
 

@@ -1,0 +1,7 @@
+factors variations
+================================
+offset_x = [-50, 50]
+offset_y = [-50, 50]
+offset_z = [20, 30]
+track_width_factor = [0.5, 2]
+turn_rate_factor = [0.5, 2]

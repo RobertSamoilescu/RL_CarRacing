@@ -21,8 +21,8 @@ class CarRacingWrapper(Wrapper):
 
     def step(self, action):
         # steer and acceleration conversion
-        steer = (2. * action[0] - CarRacingWrapper.STEER_SPACE) / CarRacingWrapper.STEER_SPACE
-        acc = (2 * action[1] - CarRacingWrapper.ACC_SPACE) / CarRacingWrapper.ACC_SPACE
+        steer = (2. * action[0].item() - CarRacingWrapper.STEER_SPACE) / CarRacingWrapper.STEER_SPACE
+        acc = (2 * action[1].item() - CarRacingWrapper.ACC_SPACE) / CarRacingWrapper.ACC_SPACE
         action = np.array([steer, acc, 0]) if acc > 0 else np.array([steer, 0, acc])
 
         observations = []

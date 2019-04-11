@@ -28,8 +28,8 @@ class Agent:
         steer_dist, acc_dist = dist
 
         if self.argmax:
-            steer_actions = steer_dist.probs.max(1, keepdim=True)[1]
-            acc_actions = acc_dist.probs.max(1, keepdim=True)[1]
+            steer_actions = steer_dist.probs.max(1, keepdim=True)[1][0]
+            acc_actions = acc_dist.probs.max(1, keepdim=True)[1][0]
         else:
             steer_actions = steer_dist.sample()
             acc_actions = acc_dist.sample()
