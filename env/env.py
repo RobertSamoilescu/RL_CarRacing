@@ -18,22 +18,39 @@ class CarRacingWrapper(Wrapper):
     MEAN_X, OFFSET_X = 0, 50 # addition negative or positive, camera ox
     MEAN_Y, OFFSET_Y = 0, 50 # addition negative or positive, camera oy
     MEAN_Z, OFFSET_Z = 25, 5 # addition negative or positive, camera oz
-    MEAN_TW, OFFSET_TW = 1, 1 # multiplication or division, track width
-    MEAN_TR, OFFSET_TR = 1, 1 # multipication or division, turn rate
+    
+    START_TW, OFFSET_TW = 0.5, 1.5 # multiplication or division, track width
+    START_TR, OFFSET_TR = 0.5, 1.5 # multipication or division, turn rate
+
+    START_STEER, OFFSET_STEER = 1, 4 # addition negative or positive, steer factor
+    START_ACC, OFFSET_ACC = 1, 4     # addition negative or positive, acceleration factor
+    START_BRK, OFFSET_BRK = 1, 4     # addition negative or positive, break factor
 
 
-    def __init__(self, env, no_stacked_frames=4, max_steps=1024, no_levels=10, no_steps_per_level=1):
+    def __init__(self, env, no_stacked_frames=4, max_steps=1024, no_levels=10, no_steps_per_level=100000):
         super(CarRacingWrapper, self).__init__(env)
         self.action_space = gym.spaces.Discrete(2 * CarRacingWrapper.STEER_SPACE + 2 * CarRacingWrapper.ACC_SPACE + 2)
         self.max_steps = max_steps
         self.counter = 0
         self.no_stacked_frames = no_stacked_frames
 
+        self.no_levels = no_levels
+        self.crt_level = 0.
+        self.no_steps_per_level = no_steps_per_level
+        self.no_resets = 0
+
     def step(self, action):
         # steer and acceleration conversion
         steer = (action[0].item() - (CarRacingWrapper.STEER_SPACE + 1)) / CarRacingWrapper.STEER_SPACE
         acc = (action[1].item() - (CarRacingWrapper.ACC_SPACE + 1)) / CarRacingWrapper.ACC_SPACE
-        action = np.array([steer, acc, 0]) if acc > 0 else np.array([steer, 0, acc])
+
+        # modify steer, acceleration and break according to their factors
+        steer = np.clip(self.steer_factor * steer, -1., 1.)
+        acc = np.clip(self.acc_factor * acc if acc > 0 else self.brk_factor * acc, -1., 1.)
+
+        # set current action
+        action = np.array([steer, acc, 0]) if acc > 0 else np.array([steer, 0, -acc])
+        # print("ACTION", action)
 
         observations = []
         total_reward = 0
@@ -44,7 +61,7 @@ class CarRacingWrapper(Wrapper):
             total_reward += reward
 
             # convert observation from bird eye view to driver view
-            observation = bev.from_bird_view(observation)
+            observation = bev.from_bird_view(observation, offset_x=self.offset_x, offset_y=self.offset_y, offset_z=self.offset_z)
             observations.append(observation)
 
             # increment number of steps
@@ -64,14 +81,52 @@ class CarRacingWrapper(Wrapper):
         return self.env.render(mode)
 
     def reset(self, **kwargs):
-        self.env.reset(**kwargs)
+        # compute camera parameters for current level
+        self.offset_x = (2 * np.random.rand() - 1) * CarRacingWrapper.OFFSET_X * self.crt_level/self.no_levels + CarRacingWrapper.MEAN_X
+        self.offset_y = (2 * np.random.rand() - 1) * CarRacingWrapper.OFFSET_Y * self.crt_level/self.no_levels + CarRacingWrapper.MEAN_Y
+        self.offset_z = (2 * np.random.rand() - 1) * CarRacingWrapper.OFFSET_Z * self.crt_level/self.no_levels + CarRacingWrapper.MEAN_Z
+
+        self.offset_x = int(self.offset_x)
+        self.offset_y = int(self.offset_y)
+        self.offset_z = int(self.offset_z)
+
+        # compute track parameters for current level
+        self.track_width = np.random.rand() * CarRacingWrapper.OFFSET_TW * self.crt_level/self.no_levels + CarRacingWrapper.START_TW
+        self.track_radius = np.random.rand() * CarRacingWrapper.OFFSET_TR * self.crt_level/self.no_levels + CarRacingWrapper.START_TR
+
+        # compute steer, acceleration and break level
+        self.steer_factor = np.random.rand() * CarRacingWrapper.OFFSET_STEER * self.crt_level/self.no_levels + CarRacingWrapper.START_STEER
+        self.steer_factor = 1./self.steer_factor if np.random.randint(2) == 0 else self.steer_factor
+
+        self.acc_factor = np.random.rand() * CarRacingWrapper.OFFSET_ACC * self.crt_level/self.no_levels + CarRacingWrapper.START_ACC
+        self.acc_factor = 1./self.acc_factor if np.random.randint(2) == 0 else self.acc_factor
+
+        self.brk_factor = np.random.rand() * CarRacingWrapper.OFFSET_BRK * self.crt_level/self.no_levels + CarRacingWrapper.START_BRK
+        self.brk_factor = 1./self.brk_factor if np.random.randint(2) == 0 else self.brk_factor
+
+        print("LEVEL %d" % (self.crt_level,))
+        print("CAMERA_X: %.2f, CAMERA_Y: %.2f, CAMERA_Z: %.2f" % (self.offset_x, self.offset_y, self.offset_z))
+        print("TRACK_WIDTH: %.2f, TRACK_RADIUS: %.2f" % (self.track_width, self.track_radius))
+        print("STEER_FACTOR: %.2f, ACC_FACTOR: %.2f, BRK_FACTOR: %.2f" % (self.steer_factor, self.acc_factor, self.brk_factor))
+
+        # set track width
+        self.env.env.track_width_factor = 1. / self.track_width
+        self.env.env.turn_rate_factor = self.track_radius
+
+        # reset env
+        self.env.reset()
         self.counter = 0
+
+        # increment number of resets & deal with current level
+        self.no_resets += 1
+        if self.no_resets %  self.no_steps_per_level == 0:
+            self.crt_level = min(self.crt_level + 1, self.no_levels)
 
         # skip first NUM_FRAMES by sending a constant action of doing nothing
         for _ in range(CarRacingWrapper.NUM_FRAMES):
             observation, _, _, _ = self.env.step(CarRacingWrapper.ACTION)
 
-        observations = [bev.from_bird_view(observation)] * self.no_stacked_frames
+        observations = [bev.from_bird_view(observation, offset_x=self.offset_x, offset_y=self.offset_y, offset_z=self.offset_z)] * self.no_stacked_frames
         observations = np.stack(observations, axis=2).transpose(2, 0, 1)
         return observations
 
