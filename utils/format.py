@@ -9,29 +9,15 @@ import gym
 import utils
 
 def get_obss_preprocessor(env_id, obs_space, model_dir):
-    # Check if it is a MiniGrid environment
-    if re.match("MiniGrid-.*", env_id):
-        obs_space = {"image": obs_space.spaces['image'].shape, "text": 100}
-
-        vocab = Vocabulary(model_dir, obs_space["text"])
-        def preprocess_obss(obss, device=None):
-            return torch_rl.DictList({
-                "image": preprocess_images([obs["image"] for obs in obss], device=device),
-                "text": preprocess_texts([obs["mission"] for obs in obss], vocab, device=device)
-            })
-        preprocess_obss.vocab = vocab
 
     # Check if the obs_space is of type Box([X, Y, 3])
-    elif isinstance(obs_space, gym.spaces.Box) and len(obs_space.shape) == 3 and obs_space.shape[2] == 3:
-        obs_space = {"image": obs_space.shape}
+    obs_space = {"image": obs_space[0].shape, "action": obs_space[1]}
 
-        def preprocess_obss(obss, device=None):
-            return torch_rl.DictList({
-                "image": preprocess_images(obss, device=device)
-            })
-
-    else:
-        raise ValueError("Unknown observation space: " + str(obs_space))
+    def preprocess_obss(obss, device=None):
+        return torch_rl.DictList({
+            "image": preprocess_images([obs["image"] for obs in obss], device=device),
+            "action": preprocess_actions([obs["action"] for obs in obss], device=device)
+    })
 
     return obs_space, preprocess_obss
 
@@ -40,6 +26,9 @@ def preprocess_images(images, mean_value=128., device=None):
     images = numpy.array(images)
     images = (images - mean_value) / mean_value
     return torch.tensor(images, device=device, dtype=torch.float)
+
+def preprocess_actions(actions, device=None):
+    return torch.tensor(actions, device=device, dtype=torch.float)
 
 def preprocess_texts(texts, vocab, device=None):
     var_indexed_texts = []

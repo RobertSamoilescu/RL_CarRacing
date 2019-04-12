@@ -25,20 +25,6 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         self._memory_size = memory_size = 256
         self.memory_type = "GRU"
 
-        # Define image embedding
-        # kernel_size = [2, 2, 2]; stride = [1, 1, 1]
-        # no_last_filters = 64
-        # no_input_channels = 4
-        # self.image_conv = nn.Sequential(
-        #     nn.Conv2d(no_input_channels, 16, (2, 2)),
-        #     nn.ReLU(),
-        #     nn.MaxPool2d((2, 2)),
-        #     nn.Conv2d(16, 32, (2, 2)),
-        #     nn.ReLU(),
-        #     nn.Conv2d(32, no_last_filters, (2, 2)),
-        #     nn.ReLU()
-        # )
-
         kernel_size = [5, 5, 5]; stride = [2, 2, 2]
         no_last_filters = 32
         no_input_channels = 4
@@ -65,10 +51,12 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
             n = get_output_size(n, kernel_size[i], stride[i])
             m = get_output_size(m, kernel_size[i], stride[i])
         self.image_embedding_size = n * m * no_last_filters
-        # self.image_embedding_size = ((n-1)//2-2)*((m-1)//2-2)*64
 
         # Define memory
         if self.use_memory:
+            # add past actions
+            self.image_embedding_size += obs_space["action"]
+
             if self.memory_type == "LSTM":
                 self.memory_rnn = nn.LSTMCell(self.image_embedding_size, memory_size)
             else:
@@ -80,12 +68,12 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         if isinstance(action_space, gym.spaces.Discrete):
             self.steer_actor = nn.Sequential(
                 nn.Linear(self.image_embedding_size, 256),
-                nn.Tanh(),
+                nn.ReLU(),
                 nn.Linear(256, 181)
             )
             self.acc_actor = nn.Sequential(
                 nn.Linear(self.image_embedding_size, 256),
-                nn.Tanh(),
+                nn.ReLU(),
                 nn.Linear(256, 201)
             )
         else:
@@ -113,7 +101,13 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         x = self.image_conv(x)
         x = x.reshape(x.shape[0], -1)
 
+
         if self.use_memory:
+            # add previous action
+            y = obs.action
+            y = y.reshape(y.shape[0], -1)
+            x = torch.cat((x, y), 1)
+
             if self.memory_type == "LSTM":
                 hidden = (memory[:, :self._memory_size], memory[:, self._memory_size:])
                 hidden = self.memory_rnn(x, hidden)
