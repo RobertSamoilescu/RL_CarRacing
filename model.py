@@ -82,7 +82,7 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # Define critic's model
         self.critic = nn.Sequential(
             nn.Linear(self.image_embedding_size, 256),
-            nn.Tanh(),
+            nn.ReLU(),
             nn.Linear(256, 1)
         )
 

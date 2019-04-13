@@ -27,7 +27,7 @@ class CarRacingWrapper(Wrapper):
     START_BRK, OFFSET_BRK = 1, 4     # addition negative or positive, break factor
 
 
-    def __init__(self, env, no_stacked_frames=4, no_past_actions=4, max_steps=1024, no_levels=10, no_steps_per_level=3):
+    def __init__(self, env, no_stacked_frames=4, no_past_actions=4, max_steps=1024, no_levels=10, no_steps_per_level=200):
         super(CarRacingWrapper, self).__init__(env)
         self.action_space = gym.spaces.Discrete(2 * CarRacingWrapper.STEER_SPACE + 2 * CarRacingWrapper.ACC_SPACE + 2)
         self.max_steps = max_steps
@@ -53,15 +53,17 @@ class CarRacingWrapper(Wrapper):
         steer = (action[0].item() - (CarRacingWrapper.STEER_SPACE + 1)) / CarRacingWrapper.STEER_SPACE
         acc = (action[1].item() - (CarRacingWrapper.ACC_SPACE + 1)) / CarRacingWrapper.ACC_SPACE
 
+        # save original action action
+        original_action = np.array([steer, acc, 0]) if acc > 0 else np.array([steer, 0, -acc])
+        self.action_history.append(original_action)
+
         # modify steer, acceleration and break according to their factors
         steer = np.clip(self.steer_factor * steer, -1., 1.)
         acc = np.clip(self.acc_factor * acc if acc > 0 else self.brk_factor * acc, -1., 1.)
 
         # set current action
         action = np.array([steer, acc, 0]) if acc > 0 else np.array([steer, 0, -acc])
-        self.action_history.append(action)
-        # print("ACTION", action)
-
+    
         observations = []
         total_reward = 0
 
