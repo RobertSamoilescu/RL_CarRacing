@@ -37,7 +37,7 @@ utils.seed(args.seed)
 
 # Generate environment
 ENV = "CarRacing-v0"
-env = CarRacingWrapper(gym.make(ENV))
+env = CarRacingWrapper(gym.make(ENV), no_steps_per_level=1)
 env.seed(args.seed)
 for _ in range(args.shift):
     env.reset()
@@ -59,7 +59,7 @@ while True:
     renderer = env.render()
 
     # show obs
-    cv2.imshow("OBS", obs[0])
+    cv2.imshow("OBS", obs['image'][0])
     cv2.waitKey(1)
 
     action = agent.get_action(obs)

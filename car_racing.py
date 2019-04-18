@@ -120,9 +120,10 @@ class CarRacing(gym.Env, EzPickle):
 
         # added
         self.track_width_factor = 1.
-        self.turn_rate_factor = 1
+        self.turn_rate_factor = 1.
+        self.friction = 10.
 
-        self.action_space = spaces.Box( np.array([-1,0,0]), np.array([+1,+1,+1]), dtype=np.float32)  # steer, gas, brake
+        self.action_space = spaces.Box(np.array([-1,0,0]), np.array([+1,+1,+1]), dtype=np.float32)  # steer, gas, brake
         self.observation_space = spaces.Box(low=0, high=255, shape=(STATE_H, STATE_W, 3), dtype=np.uint8)
 
     def seed(self, seed=None):
@@ -266,7 +267,7 @@ class CarRacing(gym.Env, EzPickle):
             c = 0.01*(i%3)
             t.color = [ROAD_COLOR[0] + c, ROAD_COLOR[1] + c, ROAD_COLOR[2] + c]
             t.road_visited = False
-            t.road_friction = 1.0
+            t.road_friction = self.friction
             t.fixtures[0].sensor = True
             self.road_poly.append(( [road1_l, road1_r, road2_r, road2_l], t.color ))
             self.road.append(t)
@@ -365,6 +366,7 @@ class CarRacing(gym.Env, EzPickle):
         if mode != 'state_pixels':
             win.switch_to()
             win.dispatch_events()
+
         if mode=="rgb_array" or mode=="state_pixels":
             win.clear()
             t = self.transform

@@ -22,9 +22,13 @@ class CarRacingWrapper(Wrapper):
     START_TW, OFFSET_TW = 0.5, 1.5  # multiplication or division, track width
     START_TR, OFFSET_TR = 0.5, 1.5  # multiplication or division, turn rate
 
-    START_STEER, OFFSET_STEER = 1, 4 # addition negative or positive, steer factor
-    START_ACC, OFFSET_ACC = 1, 4     # addition negative or positive, acceleration factor
-    START_BRK, OFFSET_BRK = 1, 4     # addition negative or positive, break factor
+    START_STEER, OFFSET_STEER = 1, 4 # multiplication or division, steer factor
+    START_ACC, OFFSET_ACC = 1, 4     # multiplication or division, acceleration factor
+    START_BRK, OFFSET_BRK = 1, 4     # multiplication or division, break factor
+
+    START_FRIC, OFFSET_FRIC = 1, 19 # division, friction factor, by default is set to 10, want to be between 0.1 10
+
+    START_NOISE, OFFSET_NOISE = 0, 2 # multiplication, noise amount
 
 
     def __init__(self, env, no_stacked_frames=4, no_past_actions=4, max_steps=1024, no_levels=10, no_steps_per_level=200):
@@ -37,7 +41,7 @@ class CarRacingWrapper(Wrapper):
 
         # level configs
         self.no_levels = no_levels
-        self.crt_level = 0.
+        self.crt_level = 10. # TODO change back to 0
         self.no_steps_per_level = no_steps_per_level
         self.no_resets = 0
 
@@ -74,6 +78,7 @@ class CarRacingWrapper(Wrapper):
 
             # convert observation from bird eye view to driver view
             observation = bev.from_bird_view(observation, offset_x=self.offset_x, offset_y=self.offset_y, offset_z=self.offset_z)
+            observation = bev.noise(observation, amount=self.noise_factor)
             observations.append(observation)
 
             # increment number of steps
@@ -121,14 +126,23 @@ class CarRacingWrapper(Wrapper):
         self.brk_factor = np.random.rand() * CarRacingWrapper.OFFSET_BRK * self.crt_level/self.no_levels + CarRacingWrapper.START_BRK
         self.brk_factor = 1./self.brk_factor if np.random.randint(2) == 0 else self.brk_factor
 
-        # print("LEVEL %d" % (self.crt_level,))
-        # print("CAMERA_X: %.2f, CAMERA_Y: %.2f, CAMERA_Z: %.2f" % (self.offset_x, self.offset_y, self.offset_z))
-        # print("TRACK_WIDTH: %.2f, TRACK_RADIUS: %.2f" % (self.track_width, self.track_radius))
-        # print("STEER_FACTOR: %.2f, ACC_FACTOR: %.2f, BRK_FACTOR: %.2f" % (self.steer_factor, self.acc_factor, self.brk_factor))
+        # compute friction coeff
+        self.fric_factor = np.random.rand() * CarRacingWrapper.OFFSET_FRIC * self.crt_level/self.no_levels + CarRacingWrapper.START_FRIC
 
-        # set track width
+        # compute noise amount
+        self.noise_factor = np.random.rand() * CarRacingWrapper.OFFSET_NOISE * self.crt_level/self.no_levels + CarRacingWrapper.START_NOISE
+
+        print("LEVEL %d" % (self.crt_level,))
+        print("CAMERA_X: %.2f, CAMERA_Y: %.2f, CAMERA_Z: %.2f" % (self.offset_x, self.offset_y, self.offset_z))
+        print("TRACK_WIDTH: %.2f, TRACK_RADIUS: %.2f" % (self.track_width, self.track_radius))
+        print("STEER_FACTOR: %.2f, ACC_FACTOR: %.2f, BRK_FACTOR: %.2f" % (self.steer_factor, self.acc_factor, self.brk_factor))
+        print("FRICTION_FACTOR: %.2f" % (self.fric_factor))
+        print("NOISE_FACTOR: %.2f" % (self.noise_factor))
+
+        # set track width, turn rate & friction
         self.env.env.track_width_factor = 1. / self.track_width
         self.env.env.turn_rate_factor = self.track_radius
+        self.env.env.friction = 1./self.fric_factor
 
         # reset env
         self.env.reset()
@@ -144,7 +158,10 @@ class CarRacingWrapper(Wrapper):
         # skip first NUM_FRAMES by sending a constant action of doing nothing
         for _ in range(CarRacingWrapper.NUM_FRAMES):
             observation, _, _, _ = self.env.step(CarRacingWrapper.ACTION)
-        observations = [bev.from_bird_view(observation, offset_x=self.offset_x, offset_y=self.offset_y, offset_z=self.offset_z)] * self.no_stacked_frames
+        
+        observation = bev.from_bird_view(observation, offset_x=self.offset_x, offset_y=self.offset_y, offset_z=self.offset_z)
+        observation = bev.noise(observation, amount=self.noise_factor)
+        observations = [observation] * self.no_stacked_frames
 
         # reshape observations
         observations = np.stack(observations, axis=2).transpose(2, 0, 1)

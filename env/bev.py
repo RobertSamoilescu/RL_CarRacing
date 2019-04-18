@@ -2,6 +2,29 @@ import cv2
 import numpy as np
 import math
 
+def salt_and_pepper(image, amount=.5, s_vs_p=0.1):
+    row, col = image.shape
+    out = np.copy(image)
+
+    # Salt mode
+    num_salt = np.ceil(amount * image.size * s_vs_p)
+    coords = [np.random.randint(0, i - 1, int(num_salt))
+          for i in image.shape]
+    out[tuple(coords)] = 1
+
+    # Pepper mode
+    num_pepper = np.ceil(amount* image.size * (1. - s_vs_p))
+    coords = [np.random.randint(0, i - 1, int(num_pepper))
+          for i in image.shape]
+    out[tuple(coords)] = 0
+    return out
+
+def noise(image, amount=0.):
+    # add noise
+    image = salt_and_pepper(image, amount=amount) 
+    image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, np.ones((5,5)))
+    return image
+
 def get_intrinsic_matrix(offset_x=0, offset_y=0, offset_z=25):
     # camera matrix
     K = np.array([
