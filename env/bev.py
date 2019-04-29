@@ -1,29 +1,25 @@
 import cv2
 import numpy as np
 import math
+import imgaug as ig
+from imgaug import augmenters as iga
 
-def salt_and_pepper(image, amount=.5, s_vs_p=0.1):
-    row, col = image.shape
-    out = np.copy(image)
 
-    # Salt mode
-    num_salt = np.ceil(amount * image.size * s_vs_p)
-    coords = [np.random.randint(0, i - 1, int(num_salt))
-          for i in image.shape]
-    out[tuple(coords)] = 1
+def get_augmentator(noise_factor):
+    st = lambda aug: iga.Sometimes(0.7 * noise_factor, aug)
+    seq = iga.Sequential([
+            st(iga.GaussianBlur(sigma=(0, 1.5))),  # gaussian blur
+            st(iga.AdditiveGaussianNoise(scale=(0, 0.1 * 255))),  # gaussian noise
+            st(iga.Dropout(p=(0, 0.2))),  # pixel dropout
+            st(iga.CoarseDropout((0.0, 0.10), size_percent=(0.08, 0.2), per_channel=0.5)),  # region dropout
+            st(iga.Add((-40, 40), per_channel=0.5)),  # change brightness of images (by -X to Y of original value)
+            st(iga.Multiply((0.5, 1.5), per_channel=0.2)),  # change brightness of images (X-Y% of original value)
+            st(iga.ContrastNormalization((0.5, 1.5), per_channel=0.5)),  # improve or worsen the contrast
+        ],
+        random_order=True
+    )
+    return seq
 
-    # Pepper mode
-    num_pepper = np.ceil(amount* image.size * (1. - s_vs_p))
-    coords = [np.random.randint(0, i - 1, int(num_pepper))
-          for i in image.shape]
-    out[tuple(coords)] = 0
-    return out
-
-def noise(image, amount=0.):
-    # add noise
-    image = salt_and_pepper(image, amount=amount) 
-    image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, np.ones((5,5)))
-    return image
 
 def get_intrinsic_matrix(offset_x=0, offset_y=0, offset_z=25):
     # camera matrix
@@ -101,7 +97,7 @@ def from_bird_view(screen, offset_x=50, offset_y=0., offset_z=25):
     road = 255 * road
 
     # apply close
-    road = cv2.morphologyEx(road, cv2.MORPH_CLOSE, np.ones((5,5)))
+    road = cv2.morphologyEx(road, cv2.MORPH_CLOSE, np.ones((5, 5)))
 
     # change perspective
     w, h, _ = screen.shape

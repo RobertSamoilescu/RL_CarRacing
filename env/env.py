@@ -28,8 +28,6 @@ class CarRacingWrapper(Wrapper):
 
     START_FRIC, OFFSET_FRIC = 1, 19 # division, friction factor, by default is set to 10, want to be between 0.1 10
 
-    START_NOISE, OFFSET_NOISE = 0, 2 # multiplication, noise amount
-
 
     def __init__(self, env, no_stacked_frames=4, no_past_actions=4, max_steps=1024, no_levels=10, no_steps_per_level=200):
         super(CarRacingWrapper, self).__init__(env)
@@ -41,7 +39,7 @@ class CarRacingWrapper(Wrapper):
 
         # level configs
         self.no_levels = no_levels
-        self.crt_level = 10. # TODO change back to 0
+        self.crt_level = 0. # TODO change back to 0
         self.no_steps_per_level = no_steps_per_level
         self.no_resets = 0
 
@@ -54,10 +52,10 @@ class CarRacingWrapper(Wrapper):
 
     def step(self, action):
         # steer and acceleration conversion
-        steer = (action[0].item() - (CarRacingWrapper.STEER_SPACE + 1)) / CarRacingWrapper.STEER_SPACE
-        acc = (action[1].item() - (CarRacingWrapper.ACC_SPACE + 1)) / CarRacingWrapper.ACC_SPACE
+        steer = (action[0] - (CarRacingWrapper.STEER_SPACE + 1)) / CarRacingWrapper.STEER_SPACE
+        acc = (action[1] - (CarRacingWrapper.ACC_SPACE + 1)) / CarRacingWrapper.ACC_SPACE
 
-        # save original action action
+        # save origiqqnal action action
         original_action = np.array([steer, acc, 0]) if acc > 0 else np.array([steer, 0, -acc])
         self.action_history.append(original_action)
 
@@ -78,7 +76,7 @@ class CarRacingWrapper(Wrapper):
 
             # convert observation from bird eye view to driver view
             observation = bev.from_bird_view(observation, offset_x=self.offset_x, offset_y=self.offset_y, offset_z=self.offset_z)
-            observation = bev.noise(observation, amount=self.noise_factor)
+            observation = self.augmentator.augment_image(observation)
             observations.append(observation)
 
             # increment number of steps
@@ -130,14 +128,14 @@ class CarRacingWrapper(Wrapper):
         self.fric_factor = np.random.rand() * CarRacingWrapper.OFFSET_FRIC * self.crt_level/self.no_levels + CarRacingWrapper.START_FRIC
 
         # compute noise amount
-        self.noise_factor = np.random.rand() * CarRacingWrapper.OFFSET_NOISE * self.crt_level/self.no_levels + CarRacingWrapper.START_NOISE
+        eps = 1e-8
+        self.augmentator = bev.get_augmentator(self.crt_level/self.no_levels)
 
-        print("LEVEL %d" % (self.crt_level,))
-        print("CAMERA_X: %.2f, CAMERA_Y: %.2f, CAMERA_Z: %.2f" % (self.offset_x, self.offset_y, self.offset_z))
-        print("TRACK_WIDTH: %.2f, TRACK_RADIUS: %.2f" % (self.track_width, self.track_radius))
-        print("STEER_FACTOR: %.2f, ACC_FACTOR: %.2f, BRK_FACTOR: %.2f" % (self.steer_factor, self.acc_factor, self.brk_factor))
-        print("FRICTION_FACTOR: %.2f" % (self.fric_factor))
-        print("NOISE_FACTOR: %.2f" % (self.noise_factor))
+        # print("LEVEL %d" % (self.crt_level,))
+        # print("CAMERA_X: %.2f, CAMERA_Y: %.2f, CAMERA_Z: %.2f" % (self.offset_x, self.offset_y, self.offset_z))
+        # print("TRACK_WIDTH: %.2f, TRACK_RADIUS: %.2f" % (self.track_width, self.track_radius))
+        # print("STEER_FACTOR: %.2f, ACC_FACTOR: %.2f, BRK_FACTOR: %.2f" % (self.steer_factor, self.acc_factor, self.brk_factor))
+        # print("FRICTION_FACTOR: %.2f" % (self.fric_factor))
 
         # set track width, turn rate & friction
         self.env.env.track_width_factor = 1. / self.track_width
@@ -160,7 +158,7 @@ class CarRacingWrapper(Wrapper):
             observation, _, _, _ = self.env.step(CarRacingWrapper.ACTION)
         
         observation = bev.from_bird_view(observation, offset_x=self.offset_x, offset_y=self.offset_y, offset_z=self.offset_z)
-        observation = bev.noise(observation, amount=self.noise_factor)
+        observation = self.augmentator.augment_image(observation)
         observations = [observation] * self.no_stacked_frames
 
         # reshape observations
@@ -187,7 +185,7 @@ if __name__ == "__main__":
     observation = env.reset()
 
     while True:
-        obs = cv2.resize(observation[0], (300, 300))
+        obs = cv2.resize(observation["image"][0], (300, 300))
         cv2.imshow("OBS", obs)
         cv2.waitKey(0)
 
@@ -206,7 +204,7 @@ if __name__ == "__main__":
 
         observation, reward, done, info = env.step((steer, acc))
         print("reward: ",  reward)
-        print(observation[0].shape)
+        print(observation["image"][0].shape)
 
         if done:
             break
