@@ -29,7 +29,7 @@ class CarRacingWrapper(Wrapper):
     START_FRIC, OFFSET_FRIC = 1, 19 # division, friction factor, by default is set to 10, want to be between 0.1 10
 
 
-    def __init__(self, env, no_stacked_frames=4, no_past_actions=4, max_steps=1024, no_levels=10, no_steps_per_level=200):
+    def __init__(self, env, no_stacked_frames=4, no_past_actions=4, max_steps=1024, no_levels=10, no_steps_per_level=50):
         super(CarRacingWrapper, self).__init__(env)
         self.action_space = gym.spaces.Discrete(2 * CarRacingWrapper.STEER_SPACE + 2 * CarRacingWrapper.ACC_SPACE + 2)
         self.max_steps = max_steps

@@ -6,15 +6,17 @@ from imgaug import augmenters as iga
 
 
 def get_augmentator(noise_factor):
-    st = lambda aug: iga.Sometimes(0.7 * noise_factor, aug)
+    ns = noise_factor
+    eps = 1e-8
+    st = lambda aug: iga.Sometimes(0.7, aug)
     seq = iga.Sequential([
-            st(iga.GaussianBlur(sigma=(0, 1.5))),  # gaussian blur
-            st(iga.AdditiveGaussianNoise(scale=(0, 0.1 * 255))),  # gaussian noise
-            st(iga.Dropout(p=(0, 0.2))),  # pixel dropout
-            st(iga.CoarseDropout((0.0, 0.10), size_percent=(0.08, 0.2), per_channel=0.5)),  # region dropout
-            st(iga.Add((-40, 40), per_channel=0.5)),  # change brightness of images (by -X to Y of original value)
-            st(iga.Multiply((0.5, 1.5), per_channel=0.2)),  # change brightness of images (X-Y% of original value)
-            st(iga.ContrastNormalization((0.5, 1.5), per_channel=0.5)),  # improve or worsen the contrast
+            st(iga.GaussianBlur(sigma=(0, 1.5 * ns))),  # gaussian blur
+            st(iga.AdditiveGaussianNoise(scale=(0, ns * 0.1 * 255))),  # gaussian noise
+            st(iga.Dropout(p=(0, max(ns * 0.2, eps)))),  # pixel dropout
+            st(iga.CoarseDropout((0.0, max(0.10 * ns, eps)), size_percent=(0.0, 0.2 * ns))),  # region dropout
+            st(iga.Add((-40 * ns, 40 * ns))),  # change brightness of images (by -X to Y of original value)
+            st(iga.Multiply((1 - ns * 0.5, 1. + ns * 0.5))),  # change brightness of images (X-Y% of original value)
+            st(iga.ContrastNormalization((1 - ns * 0.5, 1. + 0.5 * ns))),  # improve or worsen the contrast
         ],
         random_order=True
     )

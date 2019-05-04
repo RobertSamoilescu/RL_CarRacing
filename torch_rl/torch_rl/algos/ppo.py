@@ -91,7 +91,8 @@ class PPOAlgo(BaseAlgo):
                     value_loss = torch.max(surr1, surr2).mean()
 
                     # compute loss
-                    loss = steer_policy_loss + acc_policy_loss - self.entropy_coef * (steer_entropy + acc_entropy) + self.value_loss_coef * value_loss
+                    loss = steer_policy_loss + acc_policy_loss - self.entropy_coef * (steer_entropy + acc_entropy) \
+                           + self.value_loss_coef * value_loss
 
                     # Update batch values
                     batch_entropy += steer_entropy.item() + acc_entropy.item()

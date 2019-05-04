@@ -22,7 +22,7 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
 
         # Decide which components are enabled
         self.use_memory = use_memory
-        self._memory_size = memory_size = 256
+        self._memory_size = memory_size = 512
         self.memory_type = "GRU"
 
         kernel_size = [5, 5, 5]; stride = [2, 2, 2]
@@ -68,12 +68,12 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         if isinstance(action_space, gym.spaces.Discrete):
             self.steer_actor = nn.Sequential(
                 nn.Linear(self.image_embedding_size, 256),
-                nn.ReLU(),
+                nn.Tanh(),
                 nn.Linear(256, 181)
             )
             self.acc_actor = nn.Sequential(
                 nn.Linear(self.image_embedding_size, 256),
-                nn.ReLU(),
+                nn.Tanh(),
                 nn.Linear(256, 201)
             )
         else:
@@ -82,7 +82,7 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # Define critic's model
         self.critic = nn.Sequential(
             nn.Linear(self.image_embedding_size, 256),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(256, 1)
         )
 
