@@ -11,12 +11,17 @@ import utils
 def get_obss_preprocessor(env_id, obs_space, model_dir):
 
     # Check if the obs_space is of type Box([X, Y, 3])
-    obs_space = {"image": obs_space[0].shape, "action": obs_space[1]}
+    obs_space = {
+        "image": obs_space[0].shape,
+        "action": obs_space[1],
+        "params": obs_space[2]
+    }
 
     def preprocess_obss(obss, device=None):
         return torch_rl.DictList({
             "image": preprocess_images([obs["image"] for obs in obss], device=device),
-            "action": preprocess_actions([obs["action"] for obs in obss], device=device)
+            "action": preprocess_actions([obs["action"] for obs in obss], device=device),
+            "params": preprocess_params([obs["params"] for obs in obss], device=device)
     })
 
     return obs_space, preprocess_obss
@@ -29,6 +34,9 @@ def preprocess_images(images, mean_value=128., device=None):
 
 def preprocess_actions(actions, device=None):
     return torch.tensor(actions, device=device, dtype=torch.float)
+
+def preprocess_params(params, device=None):
+    return torch.tensor(params, device=device, dtype=torch.float)
 
 def preprocess_texts(texts, vocab, device=None):
     var_indexed_texts = []

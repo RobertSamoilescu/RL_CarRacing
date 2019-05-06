@@ -7,8 +7,9 @@ import gym
 
 class CarRacingWrapper(Wrapper):
     # constant number of frames & action
-    NUM_FRAMES = 60
+    NO_FRAMES = 60
     ACTION = np.array([0., 0., 0.])
+    NO_PARAMS = 9
 
     # action spaces
     STEER_SPACE = 90
@@ -47,8 +48,11 @@ class CarRacingWrapper(Wrapper):
         self.action_history = []
 
         # set observation space
-        self.observation_space = (self.observation_space, 3 * no_past_actions) # 3 <= (steer, acc, break)
-
+        self.observation_space = (
+            self.observation_space,     # dimension of the image
+            3 * no_past_actions,        # 3 * (steer, acc, brk)
+            CarRacingWrapper.NO_PARAMS  # varied params
+        )
 
     def step(self, action):
         # steer and acceleration conversion
@@ -94,7 +98,7 @@ class CarRacingWrapper(Wrapper):
         past_actions = np.array(self.action_history[-(self.no_past_actions + 1):-1]).reshape(1, -1)
 
         # construct and return observations
-        observations = {"image": observations, "action": past_actions}
+        observations = {"image": observations, "action": past_actions, "params": self.env_params}
         return observations, total_reward, done, info
 
     def render(self, mode='rgb_array', **kwargs):
@@ -128,7 +132,6 @@ class CarRacingWrapper(Wrapper):
         self.fric_factor = np.random.rand() * CarRacingWrapper.OFFSET_FRIC * self.crt_level/self.no_levels + CarRacingWrapper.START_FRIC
 
         # compute noise amount
-        eps = 1e-8
         self.augmentator = bev.get_augmentator(self.crt_level/self.no_levels)
 
         # print("LEVEL %d" % (self.crt_level,))
@@ -154,7 +157,7 @@ class CarRacingWrapper(Wrapper):
             print("LEVEL %d" % (self.crt_level, ))
 
         # skip first NUM_FRAMES by sending a constant action of doing nothing
-        for _ in range(CarRacingWrapper.NUM_FRAMES):
+        for _ in range(CarRacingWrapper.NO_FRAMES):
             observation, _, _, _ = self.env.step(CarRacingWrapper.ACTION)
         
         observation = bev.from_bird_view(observation, offset_x=self.offset_x, offset_y=self.offset_y, offset_z=self.offset_z)
@@ -164,12 +167,24 @@ class CarRacingWrapper(Wrapper):
         # reshape observations
         observations = np.stack(observations, axis=2).transpose(2, 0, 1)
         past_actions = np.array(self.action_history[-(self.no_past_actions+1):-1]).reshape(1, -1)
+        self.env_params = np.array([
+            self.offset_x, self.offset_y, self.offset_z,
+            self.track_width, self.track_radius,
+            self.steer_factor,
+            self.acc_factor,
+            self.brk_factor,
+            self.fric_factor,
+        ])
 
         # construct and return observations
-        observations = {"image": observations, "action": past_actions}
+        observations = {
+            "image": observations,
+            "action": past_actions,
+            "params": self.env_params
+        }
         return observations
 
-    def seed(self, seed):
+    def seed(self, seed=None):
         self.env.seed(seed=seed)
 
     @property

@@ -4,7 +4,9 @@
     <list default="true" id="d1fe8201-5849-4828-91ec-13bc9b9831c4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../cmd.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../cmd.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../torch_rl/torch_rl/algos/ppo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../torch_rl/torch_rl/algos/ppo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../env/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/../env/env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/format.py" beforeDir="false" afterPath="$PROJECT_DIR$/../utils/format.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,30 +54,34 @@
     <session id="-990302634">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
-          <entry key="project.open.time.24" value="2" />
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.21" value="1" />
+          <entry key="project.open.time.24" value="3" />
           <entry key="project.open.time.26" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="643" />
+          <entry key="Python Console" value="19" />
+          <entry key="dummy" value="1" />
+          <entry key="py" value="5278" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="643" />
+          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="Python" value="5297" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="6" />
+          <entry key="py" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="6" />
+          <entry key="Python" value="14" />
         </counts>
       </usages-collector>
     </session>
@@ -83,19 +89,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../scripts/train.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="836">
-              <caret line="50" column="37" selection-start-line="50" selection-start-column="37" selection-end-line="50" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../torch_rl/torch_rl/algos/ppo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-229">
-              <caret line="81" column="63" selection-start-line="81" selection-start-column="39" selection-end-line="81" selection-end-column="63" />
+            <state relative-caret-position="969">
+              <caret line="55" column="40" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -103,8 +100,47 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../torch_rl/torch_rl/algos/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="218" column="40" selection-start-line="218" selection-start-column="25" selection-end-line="218" selection-end-column="40" />
+            <state relative-caret-position="179">
+              <caret line="86" column="19" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1158">
+              <caret line="272" column="84" selection-start-line="272" selection-start-column="84" selection-end-line="272" selection-end-column="84" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../scripts/train.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-106">
+              <caret line="96" column="9" lean-forward="true" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../utils/format.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="22" column="19" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.local/lib/python3.6/site-packages/torch/nn/modules/module.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="202" column="8" selection-start-line="202" selection-start-column="8" selection-end-line="202" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -113,9 +149,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>preprocess</find>
-      <find>obs_space</find>
-      <find>gre</find>
       <find>sample</find>
       <find>loss</find>
       <find>dist</find>
@@ -130,9 +163,7 @@
       <find>recur</find>
       <find>semi_memory_size</find>
       <find>env.step</find>
-      <find>obs</find>
       <find>prepr</find>
-      <find>print</find>
       <find>space</find>
       <find>observation_space</find>
       <find>get_obss_preprocessor</find>
@@ -142,6 +173,12 @@
       <find>values</find>
       <find>advantage</find>
       <find>self.advantages</find>
+      <find>memor</find>
+      <find>self.mask</find>
+      <find>obs</find>
+      <find>print</find>
+      <find>self.values[i]</find>
+      <find>self.values</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -161,15 +198,17 @@
         <option value="$PROJECT_DIR$/model.py" />
         <option value="$PROJECT_DIR$/env/env.py" />
         <option value="$PROJECT_DIR$/../env/bev.py" />
-        <option value="$PROJECT_DIR$/../env/env.py" />
         <option value="$PROJECT_DIR$/../torch_rl/torch_rl/algos/ppo.py" />
+        <option value="$PROJECT_DIR$/../env/env.py" />
+        <option value="$PROJECT_DIR$/../utils/format.py" />
+        <option value="$PROJECT_DIR$/../model.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
     <option name="y" value="25" />
-    <option name="width" value="927" />
+    <option name="width" value="1853" />
     <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -188,20 +227,12 @@
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
               <item name="torch-rl" type="462c0819:PsiDirectoryNode" />
-              <item name="torch_rl" type="462c0819:PsiDirectoryNode" />
+              <item name="env" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
               <item name="torch-rl" type="462c0819:PsiDirectoryNode" />
-              <item name="torch_rl" type="462c0819:PsiDirectoryNode" />
-              <item name="torch_rl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="torch-rl" type="462c0819:PsiDirectoryNode" />
-              <item name="torch_rl" type="462c0819:PsiDirectoryNode" />
-              <item name="torch_rl" type="462c0819:PsiDirectoryNode" />
-              <item name="algos" type="462c0819:PsiDirectoryNode" />
+              <item name="scripts" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -339,12 +370,12 @@
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15956284" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15956284" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32972974" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32972974" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32972974" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -352,7 +383,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32972974" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32864866" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.32864866" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -402,24 +433,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../torch_rl/torch_rl/model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../configs/default.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="627">
           <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../utils/format.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
         </state>
       </provider>
     </entry>
@@ -434,13 +451,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="627">
           <caret line="35" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -479,13 +489,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../env/env.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="131" column="76" selection-start-line="131" selection-start-column="76" selection-end-line="131" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../scripts/evaluate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="530">
@@ -493,24 +496,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../scripts/train.py">
+    <entry file="file://$USER_HOME$/.local/lib/python3.6/site-packages/gym/core.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="836">
-          <caret line="50" column="37" selection-start-line="50" selection-start-column="37" selection-end-line="50" selection-end-column="37" />
+        <state relative-caret-position="299">
+          <caret line="249" column="8" selection-start-line="249" selection-start-column="8" selection-end-line="249" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../torch_rl/torch_rl/algos/base.py">
+    <entry file="file://$PROJECT_DIR$/../torch_rl/torch_rl/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="218" column="40" selection-start-line="218" selection-start-column="25" selection-end-line="218" selection-end-column="40" />
+        <state relative-caret-position="247">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../env/env.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="100" column="97" lean-forward="true" selection-start-line="100" selection-start-column="97" selection-end-line="100" selection-end-column="97" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../torch_rl/torch_rl/algos/ppo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-229">
-          <caret line="81" column="63" selection-start-line="81" selection-start-column="39" selection-end-line="81" selection-end-column="63" />
+        <state relative-caret-position="969">
+          <caret line="55" column="40" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.6/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="202" column="8" selection-start-line="202" selection-start-column="8" selection-end-line="202" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../scripts/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-106">
+          <caret line="96" column="9" lean-forward="true" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../utils/format.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../torch_rl/torch_rl/algos/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="86" column="19" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1158">
+          <caret line="272" column="84" selection-start-line="272" selection-start-column="84" selection-end-line="272" selection-end-column="84" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
