@@ -31,37 +31,14 @@ def get_multiple_output_size(shape, kernel_size, stride, no_last_filters):
 
 
 class Actor(nn.Module):
-    def __init__(self, obs_shape, history_size, use_memory=True, memory_type="LSTM"):
+    def __init__(self, state_size, history_size, use_memory=True, memory_type="LSTM"):
         super(Actor, self).__init__()
         self.use_memory = use_memory
         self.memory_type = memory_type
 
-        # feature extractor details
-        self.kernel_size = [5, 5, 5]
-        self.stride = [2, 2, 2]
-        self.no_last_filters = 32
-        self.no_input_channels = 4
-
-        # image feature extractor
-        self.feature = nn.Sequential(
-            nn.Conv2d(self.no_input_channels, 16, kernel_size=self.kernel_size[0], stride=self.stride[0]),
-            nn.BatchNorm2d(16),
-            nn.ReLU(),
-            nn.Conv2d(16, 32, kernel_size=self.kernel_size[1], stride=self.stride[1]),
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.Conv2d(32, self.no_last_filters, kernel_size=self.kernel_size[2], stride=self.stride[2]),
-            nn.BatchNorm2d(self.no_last_filters),
-            nn.ReLU()
-        )
-
-        # compute state size after feature extractor
-        self.state_size = get_multiple_output_size(
-            obs_shape, kernel_size=self.kernel_size, stride=self.stride, no_last_filters=self.no_last_filters)
-
         # first fully connected
         self.base = nn.Sequential(
-            nn.Linear(self.state_size + history_size, 128),
+            nn.Linear(state_size + history_size, 128),
             nn.ReLU(inplace=True)
         )
 
@@ -90,12 +67,9 @@ class Actor(nn.Module):
             nn.Linear(128, 201)
         )
 
-    def forward(self, obs, history, memory):
-        # extract features
-        x = self.feature(obs)
-
+    def forward(self, state, history, memory):
         # reshape
-        x = x.reshape(x.shape[0], -1)
+        x = state.reshape(state.shape[0], -1)
         history = history.reshape(history.shape[0], -1)
 
         # concatenate features with history
@@ -131,47 +105,23 @@ class Actor(nn.Module):
 
 
 class Critic(nn.Module):
-    def __init__(self, obs_shape, history_size, params_size, use_memory, memory_type="LSTM"):
+    def __init__(self, state_size, history_size, params_size, use_memory, memory_type="LSTM"):
         super(Critic, self).__init__()
-        self.obs_shape = obs_shape
         self.history_size = history_size
         self.params_size = params_size
 
         self.use_memory = use_memory
         self.memory_type = memory_type
 
-        # feature extractor details
-        self.kernel_size = [5, 5, 5]
-        self.stride = [2, 2, 2]
-        self.no_last_filters = 32
-        self.no_input_channels = 4
-
-        # image feature extractor
-        self.feature = nn.Sequential(
-            nn.Conv2d(self.no_input_channels, 16, kernel_size=self.kernel_size[0], stride=self.stride[0]),
-            nn.BatchNorm2d(16),
-            nn.ReLU(),
-            nn.Conv2d(16, 32, kernel_size=self.kernel_size[1], stride=self.stride[1]),
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.Conv2d(32, self.no_last_filters, kernel_size=self.kernel_size[2], stride=self.stride[2]),
-            nn.BatchNorm2d(self.no_last_filters),
-            nn.ReLU()
-        )
-
-        # compute state size after feature extractor
-        self.state_size = get_multiple_output_size(
-            self.obs_shape, kernel_size=self.kernel_size, stride=self.stride, no_last_filters=self.no_last_filters)
-
         # env parameters base
         self.params_base = nn.Sequential(
-            nn.Linear(self.state_size + params_size, 128),
+            nn.Linear(state_size + params_size, 128),
             nn.ReLU(inplace=True)
         )
 
         # action history base
         self.history_base = nn.Sequential(
-            nn.Linear(self.state_size + history_size, 128),
+            nn.Linear(state_size + history_size, 128),
             nn.ReLU(inplace=True)
         )
 
@@ -191,18 +141,15 @@ class Critic(nn.Module):
             nn.Linear(128, 1)
         )
 
-    def forward(self, obs, history, params, memory):
-        # extract features
-        features = self.feature(obs)
-
+    def forward(self, state, history, params, memory):
         # reshape
-        features = features.reshape(features.shape[0], -1)
+        state = state.reshape(state.shape[0], -1)
         history = history.reshape(history.shape[0], -1)
         params = params.reshape(params.shape[0], -1)
 
         # concatenate inputs
-        x = torch.cat((features, params), dim=1)
-        y = torch.cat((features, history), dim=1)
+        x = torch.cat((state, params), dim=1)
+        y = torch.cat((state, history), dim=1)
 
         # pass x through params base
         x = self.params_base(x)
@@ -247,12 +194,35 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         history_size = obs_space["action"]
         params_size = obs_space["params"]
 
+        # feature extractor details
+        self.kernel_size = [5, 5, 5]
+        self.stride = [2, 2, 2]
+        self.no_last_filters = 32
+        self.no_input_channels = 4
+
+        # image feature extractor
+        self.feature = nn.Sequential(
+            nn.Conv2d(self.no_input_channels, 16, kernel_size=self.kernel_size[0], stride=self.stride[0]),
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.Conv2d(16, 32, kernel_size=self.kernel_size[1], stride=self.stride[1]),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.Conv2d(32, self.no_last_filters, kernel_size=self.kernel_size[2], stride=self.stride[2]),
+            nn.BatchNorm2d(self.no_last_filters),
+            nn.ReLU()
+        )
+
+        # compute state size after feature extractor
+        self.state_size = get_multiple_output_size(
+            obs_shape, kernel_size=self.kernel_size, stride=self.stride, no_last_filters=self.no_last_filters)
+
         # define actor
-        self.actor = Actor(obs_shape, history_size,
+        self.actor = Actor(self.state_size, history_size,
                            use_memory=self.use_memory, memory_type=self.memory_type)
 
         # define critic
-        self.critic = Critic(obs_shape, history_size, params_size,
+        self.critic = Critic(self.state_size, history_size, params_size,
                              use_memory=self.use_memory, memory_type=self.memory_type)
 
         # Initialize parameters correctly
@@ -269,11 +239,14 @@ class ACModel(nn.Module, torch_rl.RecurrentACModel):
         # split memory
         memory1, memory2 = memory[:, :self.memory_size//2], memory[:, self.memory_size//2:]
 
+        # extract features
+        state = self.feature(obs.image)
+
         # pass through actor
-        (steer_dist, acc_dist), memory1 = self.actor(obs.image, obs.action, memory1)
+        (steer_dist, acc_dist), memory1 = self.actor(state, obs.action, memory1)
 
         # pass through ciritic
-        value, memory2 = self.critic(obs.image, obs.action, obs.params, memory2)
+        value, memory2 = self.critic(state, obs.action, obs.params, memory2)
         value = value.squeeze(1)
 
         # concat memory

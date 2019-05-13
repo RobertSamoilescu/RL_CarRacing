@@ -16,19 +16,18 @@ class CarRacingWrapper(Wrapper):
     ACC_SPACE = 100
 
     # domain randomization
-    MEAN_X, OFFSET_X = 0, 50 # addition negative or positive, camera ox
-    MEAN_Y, OFFSET_Y = 0, 50 # addition negative or positive, camera oy
-    MEAN_Z, OFFSET_Z = 25, 5 # addition negative or positive, camera oz
+    MEAN_X, OFFSET_X = 0, 50  # addition negative or positive, camera ox
+    MEAN_Y, OFFSET_Y = 0, 50  # addition negative or positive, camera oy
+    MEAN_Z, OFFSET_Z = 25, 5  # addition negative or positive, camera oz
     
     START_TW, OFFSET_TW = 0.5, 1.5  # multiplication or division, track width
     START_TR, OFFSET_TR = 0.5, 1.5  # multiplication or division, turn rate
 
-    START_STEER, OFFSET_STEER = 1, 4 # multiplication or division, steer factor
-    START_ACC, OFFSET_ACC = 1, 4     # multiplication or division, acceleration factor
-    START_BRK, OFFSET_BRK = 1, 4     # multiplication or division, break factor
+    START_STEER, OFFSET_STEER = 1, 1  # multiplication or division, steer factor
+    START_ACC, OFFSET_ACC = 1, 3      # multiplication or division, acceleration factor
+    START_BRK, OFFSET_BRK = 1, 3      # multiplication or division, break factor
 
-    START_FRIC, OFFSET_FRIC = 1, 19 # division, friction factor, by default is set to 10, want to be between 0.1 10
-
+    START_FRIC, OFFSET_FRIC = 1, 12  # division, friction factor, by default is set to 10, want to be between 0.1 10
 
     def __init__(self, env, no_stacked_frames=4, no_past_actions=4, max_steps=1024, no_levels=10, no_steps_per_level=50):
         super(CarRacingWrapper, self).__init__(env)
@@ -40,7 +39,7 @@ class CarRacingWrapper(Wrapper):
 
         # level configs
         self.no_levels = no_levels
-        self.crt_level = 0. # TODO change back to 0
+        self.crt_level = 10.  # TODO change back to 0
         self.no_steps_per_level = no_steps_per_level
         self.no_resets = 0
 
@@ -150,11 +149,12 @@ class CarRacingWrapper(Wrapper):
         self.counter = 0
         self.action_history = [CarRacingWrapper.ACTION] * (self.no_past_actions + 1)
 
-        # increment number of resets & deal with current level
-        self.no_resets += 1
-        if self.no_resets % self.no_steps_per_level == 0:
-            self.crt_level = min(self.crt_level + 1, self.no_levels)
-            print("LEVEL %d" % (self.crt_level, ))
+        # TODO uncomment when change environment
+        # # increment number of resets & deal with current level
+        # self.no_resets += 1
+        # if self.no_resets % self.no_steps_per_level == 0:
+        #     self.crt_level = min(self.crt_level + 1, self.no_levels)
+        #     print("LEVEL %d" % (self.crt_level, ))
 
         # skip first NUM_FRAMES by sending a constant action of doing nothing
         for _ in range(CarRacingWrapper.NO_FRAMES):
