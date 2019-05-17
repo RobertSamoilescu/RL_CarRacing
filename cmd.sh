@@ -12,5 +12,10 @@
 
 # randomized envirnomnet from the start
 # python3 -m scripts.train --algo ppo --model CarRacing_RandDomain_1 --save-interval 5 --procs 16 --tb --recurrence 8 --batch-size 1024 --epochs 2 --lr 7e-4 --seed 1  1>out 2>err
-python3 -m scripts.train --algo ppo --model CarRacing_Baseline_9072 --save-interval 5 --procs 16 --tb --recurrence 8 --batch-size 1024 --epochs 2 --lr 7e-4 --seed 9072 1>out_9071 2>err_9071
-python3 -m scripts.train --algo ppo --model CarRacing_Baseline_7309 --save-interval 5 --procs 16 --tb --recurrence 8 --batch-size 1024 --epochs 2 --lr 7e-4 --seed 7309 1>out_7309 2>err_7309
+# python3 -m scripts.train --algo ppo --model CarRacing_Baseline_9072 --save-interval 5 --procs 16 --tb --recurrence 8 --batch-size 1024 --epochs 2 --lr 7e-4 --seed 9072 1>out_9071 2>err_9071
+# python3 -m scripts.train --algo ppo --model CarRacing_Baseline_7309 --save-interval 5 --procs 16 --tb --recurrence 8 --batch-size 1024 --epochs 2 --lr 7e-4 --seed 7309 1>out_7309 2>err_7309
+
+# symmetric actor critic
+python3 -m scripts.train --algo ppo --model CarRacing_Symmetric_CL_1 --save-interval 5 --procs 16 --tb --recurrence 8 --batch-size 1024 --epochs 2 --lr 7e-4  --seed 1 1>out 2>err
+python3 -m scripts.train --algo ppo --model CarRacing_Symmetric_CL_9072 --save-interval 5 --procs 16 --tb --recurrence 8 --batch-size 1024 --epochs 2 --lr 7e-4 --seed 9072 1>out_9072 2>err_9072
+python3 -m scripts.train --algo ppo --model CarRacing_Symmetric_CL_7309 --save-interval 5 --procs 16 --tb --recurrence 8 --batch-size 1024 --epochs 2 --lr 7e-4 --seed 7309 1>out_7309 2>err_7309

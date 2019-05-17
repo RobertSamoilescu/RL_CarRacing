@@ -113,12 +113,6 @@ class Critic(nn.Module):
         self.use_memory = use_memory
         self.memory_type = memory_type
 
-        # env parameters base
-        self.params_base = nn.Sequential(
-            nn.Linear(state_size + params_size, 128),
-            nn.ReLU(inplace=True)
-        )
-
         # action history base
         self.history_base = nn.Sequential(
             nn.Linear(state_size + history_size, 128),
@@ -134,7 +128,7 @@ class Critic(nn.Module):
 
         #  head
         self.head = nn.Sequential(
-            nn.Linear(256, 128),
+            nn.Linear(128, 128),
             nn.ReLU(inplace=True),
             nn.Linear(128, 128),
             nn.ReLU(inplace=True),
@@ -145,38 +139,30 @@ class Critic(nn.Module):
         # reshape
         state = state.reshape(state.shape[0], -1)
         history = history.reshape(history.shape[0], -1)
-        params = params.reshape(params.shape[0], -1)
 
         # concatenate inputs
-        x = torch.cat((state, params), dim=1)
-        y = torch.cat((state, history), dim=1)
-
-        # pass x through params base
-        x = self.params_base(x)
+        x = torch.cat((state, history), dim=1)
 
         # pass y through history base
-        y = self.history_base(y)
+        x = self.history_base(x)
 
         # pass through LSTM in case
         if self.use_memory:
             if self.memory_type == "LSTM":
                 hidden = (memory[:, :128], memory[:, 128:])
-                hidden = self.memory_rnn(y, hidden)
+                hidden = self.memory_rnn(x, hidden)
                 embedding = hidden[0]
                 memory = torch.cat(hidden, dim=1)
             else:
                 hidden = memory
-                hidden = self.memory_rnn(y, hidden)
+                hidden = self.memory_rnn(x, hidden)
                 embedding = hidden
                 memory = hidden
         else:
-            embedding = y
-
-        # concatenate x with embedding
-        x = torch.cat((embedding, x), dim=1)
+            embedding = x
 
         # pass x trough head
-        x = self.head(x)
+        x = self.head(embedding)
 
         return x, memory
 
