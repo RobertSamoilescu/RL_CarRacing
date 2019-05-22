@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--model", required=True,
                     help="name of the trained model (REQUIRED)")
-parser.add_argument("--episodes", type=int, default=10,
+parser.add_argument("--episodes", type=int, default=100,
                     help="number of episodes of evaluation (default: 100)")
 parser.add_argument("--seed", type=int, default=0,
                     help="random seed (default: 0)")
@@ -115,7 +115,7 @@ def evaluate_model(seed: int, level: int =0):
     return logs
 
 
-def evaluate_models(seeds: list, no_levels: int=3)->dict:
+def evaluate_models(seeds: list, no_levels: int=11)->dict:
     """
     Evaluate the model given as argument for every level and every seed
     :param seeds: list of integers of model seed
